@@ -1,0 +1,21 @@
+{
+  "name": "1dv610_webapp_l3",
+  "version": "1.0.0",
+  "description": "A web-application that creates graphs/charts of inserted data and makes them downloadable.",
+  "main": "src/index.html",
+  "scripts": {
+    "dev": "vite",
+    "test": "npx --node-options=--experimental-vm-modules jest || exit 0"
+  },
+  "author": "Jennifer von Trotta-Treyden <jv222th>",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "jest-chain": "^1.1.6",
+    "jest-environment-jsdom": "^29.7.0",
+    "vite": "^5.4.9"
+  },
+  "dependencies": {
+    "@jenvont/datavisualizer": "^1.0.7"
+  }
+}
