@@ -5,6 +5,7 @@
   "main": "src/index.html",
   "scripts": {
     "dev": "vite",
+    "build": "vite build",
     "test": "npx --node-options=--experimental-vm-modules jest || exit 0"
   },
   "author": "Jennifer von Trotta-Treyden <jv222th>",
