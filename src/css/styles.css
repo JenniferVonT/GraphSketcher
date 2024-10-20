@@ -1,0 +1,102 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+body {
+  background: #ffffff;
+  background-image: url(../img/steve-johnson-GyDueJcQUSo-unsplash.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: grid;
+  grid-template-columns: 10vw 1fr 10vw;
+  grid-template-rows: max-content 1fr min-content;
+  grid-template-areas:
+    "header header header"
+    ". main ."
+    "footer footer footer"
+  ;
+}
+
+header {
+  grid-area: header;
+  height: 80px;
+}
+
+nav {
+  justify-content: center;
+  align-items: center;
+  height: max-content;
+  margin: 0;
+  padding: 0;
+  margin-right: 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+nav ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+nav li {
+  flex-grow: 1;
+}
+
+nav button {
+  background-color: #0000006b;
+  border-radius: 5px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  color: #ffffff;
+  font-size: 1.5rem;
+  border: none;
+  width: 100%;
+  height: 60px;
+  margin-top: 0;
+  cursor: pointer;
+}
+
+nav button:hover {
+  background-color: #000000a6;
+}
+
+#nav_start {
+  margin-right: 3px;
+}
+
+#nav_saved_graphs {
+  margin-left: 3px;
+}
+
+main {
+  grid-area: main;
+  height: 1000px;
+  width: 100%;
+  background-color: #ffffff88;
+}
+
+footer {
+  grid-area: footer;
+  background-color: #00000041;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  height: 50px;
+}
+
+footer a {
+  color: #000127;
+}

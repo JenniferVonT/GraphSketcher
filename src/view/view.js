@@ -21,17 +21,11 @@ export default class View {
     doc.append(document.createElement('p').textContent = 'test hejsan!')
 
     const navStart = document.querySelector('#nav_start')
-    const navEdit = document.querySelector('#nav_edit')
-    const navSaved = document.querySelector('#nav_saved')
+    const navSaved = document.querySelector('#nav_saved_graphs')
 
     navStart.addEventListener('click', () => {
       const p = document.createElement('p')
       doc.append(p.textContent = 'START PAGE! \n')
-    })
-
-    navEdit.addEventListener('click', () => {
-      const p = document.createElement('p')
-      doc.append(p.textContent = 'EDIT PAGE! \n')
     })
 
     navSaved.addEventListener('click', () => {
