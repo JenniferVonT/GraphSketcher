@@ -26,6 +26,7 @@ export default class Controller {
 
   startApplication () {
     this.#view = new View()
+    this.#view.showStartPage()
   }
 
   #createURLfromCanvasElement (canvasChartElement) {

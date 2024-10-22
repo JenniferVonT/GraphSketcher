@@ -28,22 +28,80 @@ export default class View {
     this.#startBtn.addEventListener('click', (event) => {
       event.preventDefault()
 
-      this.#showStartPage()
+      this.showStartPage()
     })
 
     this.#savedGraphBtn.addEventListener('click', (event) => {
       event.preventDefault()
 
-      this.#showSavedChartsPage()
+      this.showSavedChartsPage()
     })
   }
 
-  #showStartPage () {
-      const p = document.createElement('p')
-      this.#documentBody .append(p.textContent = 'START PAGE! \n')
+  showStartPage () {
+    this.#insertStartingTitle()
+    this.#insertGraphSelectButtons()
   }
 
-  #showSavedChartsPage() {
+  #insertStartingTitle () {
+    const title = document.createElement('h1')
+
+    title.setAttribute('id', 'start_title')
+    title.textContent = 'Pick a graph type to start!'
+
+    this.#documentBody.append(title)
+  }
+
+  #insertGraphSelectButtons () {
+    const wrapper = document.createElement('div')
+    wrapper.setAttribute('id', 'starting_page_select_wrapper')
+
+    wrapper.append(this.#createPieGraphButton())
+    wrapper.append(this.#createColumnGraphButton())
+    wrapper.append(this.#createLineGraphButton())
+
+    this.#documentBody.append(wrapper)
+  }
+
+  #createStartingSelectIcons (idToSetAsAttribute) {
+    const imgElement = document.createElement('img')
+    imgElement.setAttribute('id', idToSetAsAttribute)
+    imgElement.classList.add('starting_page_select_btns')
+    imgElement.setAttribute('src', `./img/${idToSetAsAttribute}.png`)
+    imgElement.setAttribute('alt', idToSetAsAttribute)
+  
+    return imgElement
+  }
+
+  #createPieGraphButton () {
+    const pieChart = this.#createStartingSelectIcons('pie_chart_select_icon')
+
+    pieChart.addEventListener('click', () => {
+      console.log('pie test')
+    })
+
+    return pieChart
+  }
+
+  #createColumnGraphButton () {
+    const columnChart = this.#createStartingSelectIcons('column_chart_select_icon')
+    columnChart.addEventListener('click', () => {
+      console.log('column test')
+    })
+
+    return columnChart
+  }
+
+  #createLineGraphButton () {
+    const lineChart = this.#createStartingSelectIcons('line_chart_select_icon')
+    lineChart.addEventListener('click', () => {
+      console.log('line test')
+    })
+
+    return lineChart
+  }
+
+  showSavedChartsPage() {
     // TO-DO: Implement the saved page.
     // Insert the saved graphs/charts into the DOM.
     const p = document.createElement('p')
