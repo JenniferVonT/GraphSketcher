@@ -67,7 +67,7 @@ export default class View {
     const imgElement = document.createElement('img')
     imgElement.setAttribute('id', idToSetAsAttribute)
     imgElement.classList.add('starting_page_select_btns')
-    imgElement.setAttribute('src', `./img/${idToSetAsAttribute}.png`)
+    imgElement.setAttribute('src', `../img/${idToSetAsAttribute}.png`)
     imgElement.setAttribute('alt', idToSetAsAttribute)
   
     return imgElement
