@@ -13,7 +13,7 @@ import View from './view/view.js'
 function startApplication () {
   const view = new View()
 
-  view.startPage()
+  view.showStartPage()
 }
 
 startApplication()

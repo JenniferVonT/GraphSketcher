@@ -10,29 +10,47 @@ import Controller from '../controller/controller.js'
 
 export default class View {
   #controller
+  #startBtn
+  #savedGraphBtn
+  #documentBody
 
   constructor() {
     this.#controller = new Controller()
+
+    this.#startBtn = document.querySelector('#nav_start')
+    this.#savedGraphBtn = document.querySelector('#nav_saved_graphs')
+    this.#documentBody = document.querySelector('main')
+
+    this.#configureNavigationButtons()
   }
 
-  startPage () {
-    const doc = document.querySelector('main')
+  #configureNavigationButtons () {
+    this.#startBtn.addEventListener('click', (event) => {
+      event.preventDefault()
 
-    doc.append(document.createElement('p').textContent = 'test hejsan!')
-
-    const navStart = document.querySelector('#nav_start')
-    const navSaved = document.querySelector('#nav_saved_graphs')
-
-    navStart.addEventListener('click', () => {
-      const p = document.createElement('p')
-      doc.append(p.textContent = 'START PAGE! \n')
+      this.#showStartPage()
     })
 
-    navSaved.addEventListener('click', () => {
-      const p = document.createElement('p')
-      doc.append(p.textContent = 'SAVED PAGE! \n')
-    })
+    this.#savedGraphBtn.addEventListener('click', (event) => {
+      event.preventDefault()
 
-    this.#controller.test()
+      this.#showSavedChartsPage()
+    })
+  }
+
+  #showStartPage () {
+      const p = document.createElement('p')
+      this.#documentBody .append(p.textContent = 'START PAGE! \n')
+  }
+
+  #showSavedChartsPage() {
+    // TO-DO: Implement the saved page.
+    // Insert the saved graphs/charts into the DOM.
+    const p = document.createElement('p')
+    this.#documentBody .append(p.textContent = 'SAVED PAGE! \n')
+  }
+
+  showNotifications() {
+
   }
 }
