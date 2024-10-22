@@ -5,15 +5,15 @@
  * @version 1.0.0
  */
 
-import View from './view/view.js'
+import Controller from './controller/controller.js'
 
 /**
  * Instantiates a new view and calls the first startPage method.
  */
 function startApplication () {
-  const view = new View()
+  const controller = new Controller()
 
-  view.showStartPage()
+  controller.startApplication()
 }
 
 startApplication()

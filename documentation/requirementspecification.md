@@ -6,6 +6,7 @@ The graphs/charts should be able to be customizable to the extent that the `@jen
 The user should be able to see previously saved graphs/charts and be able to download and/or delete them from the application and the download filetype should be PNG.
 
 ## 2. Non-function requirements
+The application should act as a single page application (SPA).
 There will not be a database involved or any authorization/authentication so the saving functionalities should be simple and stored in the localstorage on the browser, but to limit the memory load it should cap the amount of charts/graphs a user can save to 5, if this is reached the users have to delete an already saved chart/graph if they want to save another to clear up space.
 
 ## 3. Organizational requirements
