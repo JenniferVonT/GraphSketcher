@@ -7,5 +7,24 @@
  */
 
 export default class DataSaver {
+  #maxStorageValues = 5
+
   constructor () {}
+
+  saveChart (chart, title) {
+    // TO-DO: Save chart data as stringified JSON in localstorage.
+  }
+
+  updateChart (chart, title) {
+    // TO-DO: Update the chart data as stringified JSON in localstorage.
+  }
+
+  deleteChart (id) {
+    // TO-DO: Delete he chart from the localstorage.
+  }
+  
+  createUniqueID () {
+    // TO-DO: Create a unique id (check against saved charts so as not to have doublicate ids).
+  }
+
 }

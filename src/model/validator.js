@@ -17,7 +17,7 @@ export default class Validator {
   }
 
   isColorValid (color) {
-    if (color && typeof color === 'string' && this.#VALID_COLORS.includes(color.toLowerCase())) {
+    if (color && typeof color === 'String' && this.#VALID_COLORS.includes(color.toLowerCase())) {
       return true
     }
     return false
@@ -25,6 +25,13 @@ export default class Validator {
 
   isDataValueValid (value) {
     if (value && typeof value === 'number' && value >= 0) {
+      return true
+    }
+    return false
+  }
+
+  isTitleValid (title) {
+    if (title && typeof title === 'String' && title.length > 0 && title.length < 30) {
       return true
     }
     return false

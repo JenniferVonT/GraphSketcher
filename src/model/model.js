@@ -52,11 +52,13 @@ export default class Model {
   }
 
   getAllSavedCharts () {
-    // TO-DO: Get all the saved charts and return them.
+    return this.#dataSaver.getSavedCharts()
   }
 
   saveActiveChart () {
-    // TO-DO: Save the active chart.
+    if (this.#activeChart) {
+      this.#dataSaver(this.#activeChart)
+    }
   }
 
   updateChartHeight (height) {
@@ -92,5 +94,15 @@ export default class Model {
 
       return this.#activeChart
     }
+  }
+
+  updateTitle (newTitle) {
+    if (this.#validator.isTitleValid(newTitle)) {
+      this.#activeTitle = newTitle
+    }
+  }
+
+  deleteChart (chart) {
+    this.#dataSaver.deleteChart(chart)
   }
 }
