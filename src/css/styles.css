@@ -6,6 +6,10 @@ html, body {
   font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
+.hidden {
+  display: none;
+}
+
 body {
   background: #ffffff;
   background-image: url(../img/steve-johnson-GyDueJcQUSo-unsplash.jpg);
