@@ -9,7 +9,7 @@ import Controller from './controller/controller.js'
 import Model from './model/model.js'
 
 /**
- * Instantiates a new view and calls the first startPage method.
+ * Instantiates a model and controller and call the method to start the application.
  */
 function startApplication () {
   const model = new Model

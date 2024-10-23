@@ -21,6 +21,7 @@ export default class View {
     this.#savedGraphsPage = document.querySelector('#saved_page')
 
     this.#configureNavigationButtons()
+    this.#setupStartingSelectButtons()
   }
 
   #configureNavigationButtons () {
@@ -38,10 +39,18 @@ export default class View {
   }
 
   showStartPage () {
+    // Clear the preview from the editor.
+    const chartPreview = document.querySelector('#chart_preview')
+    const activeChart = chartPreview.firstElementChild
+    
+    if (activeChart) {
+      chartPreview.removeChild(activeChart)
+    }
+
+    // Hide/Show the relevant elements.
     this.#savedGraphsPage.classList.add('hidden')
     this.#startPage.classList.remove('hidden')
-
-    this.#setupStartingSelectButtons()
+    document.querySelector('#edit_chart_wrapper').classList.add('hidden')
   }
 
   #setupStartingSelectButtons () {

@@ -6,6 +6,7 @@
   <title>GraphSketcher</title>
   <link rel="stylesheet" href="./css/styles.css">
   <script type="module" src="./index.js"></script>
+  <script type="module" src="./view/chart-selector.js"></script>
 </head>
 <body>
   <header>
@@ -29,7 +30,9 @@
 
     <div id="edit_chart_wrapper" class="hidden">
       <div id="chart_preview"></div>
-      <div id="edit_selectors"></div>
+      <div id="edit_selectors">
+        <chart-selector></chart-selector>
+      </div>
     </div>
 
     <div id="saved_page" class="hidden">
