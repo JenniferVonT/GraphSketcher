@@ -21,7 +21,7 @@ export default class View {
     this.#savedGraphsPage = document.querySelector('#saved_page')
 
     this.#configureNavigationButtons()
-    this.#setupStartingSelectButtons()
+    this.#configureStartingSelectButtons()
   }
 
   #configureNavigationButtons () {
@@ -35,6 +35,33 @@ export default class View {
       event.preventDefault()
 
       this.showSavedChartsPage()
+    })
+  }
+
+  #configureStartingSelectButtons () {
+    const pieSelectButton = document.querySelector('#pie_chart_select_icon')
+    const columnSelectButton = document.querySelector('#column_chart_select_icon')
+    const lineSelectButton = document.querySelector('#line_chart_select_icon')
+
+    pieSelectButton.addEventListener('click', () => {
+      this.#controller.processChartSelectionInput('createPieChart')
+    })
+
+    columnSelectButton.addEventListener('click', () => {
+      this.#controller.processChartSelectionInput('createColumnChart')
+    })
+
+    lineSelectButton.addEventListener('click', () => {
+      this.#controller.processChartSelectionInput('createLineChart')
+    })
+  }
+
+  // TO-DO: finish handling all the custom events from the editor.
+  #configureEditor () {
+    const editorOptions = document.querySelector('chart-selector')
+
+    editorOptions.addEventListener('test', (event) => {
+      console.log(event.detail)
     })
   }
 
@@ -53,32 +80,16 @@ export default class View {
     document.querySelector('#edit_chart_wrapper').classList.add('hidden')
   }
 
-  #setupStartingSelectButtons () {
-    const pieSelectButton = document.querySelector('#pie_chart_select_icon')
-    const columnSelectButton = document.querySelector('#column_chart_select_icon')
-    const lineSelectButton = document.querySelector('#line_chart_select_icon')
-
-    pieSelectButton.addEventListener('click', () => {
-      this.#controller.processChartSelectionInput('createPieChart')
-    })
-
-    columnSelectButton.addEventListener('click', () => {
-      this.#controller.processChartSelectionInput('createColumnChart')
-    })
-
-    lineSelectButton.addEventListener('click', () => {
-      this.#controller.processChartSelectionInput('createLineChart')
-    })
-  }
-
   showEditorView (canvasElementToShow) {
-    console.log('show editor')
+    this.#configureEditor()
     document.querySelector('#starting_page').classList.add('hidden')
     document.querySelector('#edit_chart_wrapper').classList.remove('hidden')
 
     const chartPreview = document.querySelector('#chart_preview')
     chartPreview.append(canvasElementToShow)
   }
+
+
 
   showSavedChartsPage() {
     // TO-DO: Implement the saved page.

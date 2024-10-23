@@ -29,7 +29,7 @@ template.innerHTML = `
   min-width: 50px;
 }
 
-#width, #height {
+#Width, #Height {
   max-width: 80px;
 }
 
@@ -134,6 +134,10 @@ template.innerHTML = `
 .data_option legend {
   justify-self: flex-end;
 }
+
+.hidden {
+  display: none;
+}
 </style>
 
 <div id="wrapper">
@@ -165,60 +169,63 @@ template.innerHTML = `
 
   <div id="size_selectors">
     <div class="size_option">
-      <label for="width">Width:</label>
-      <input id="width" type="number">
+      <label for="Width">Width:</label>
+      <input id="Width" type="number" max="1500" min="0">
     </div>
 
     <div class="size_option">
-      <label for="height">Height:</label>
-      <input id="height" type="number">
+      <label for="Height">Height:</label>
+      <input id="Height" type="number" max="1500" min="0">
     </div>
   </div>
 
   <div id="data-selectors">
-    <form class="data_option">
+    <form class="data_option" id="input_data_form">
       <fieldset>
         <legend>Input data</legend>
         <div>
           <label for="input_key">name: </label>
-          <input class="input_data key" type="text" maxlength="15" id="input_key">
+          <input class="input_data" type="text" maxlength="15" id="input_key">
         </div>
 
         <div>
           <label for="input_value">value: </label>
-          <input class="input_data value" type="number" max="1500" min="0" id="input_value">
+          <input class="input_data" type="number" max="1500" min="0" id="input_value">
         </div>
       </fieldset>
+      <input type="submit" class="hidden">
     </form>
 
-    <form class="data_option">
+    <form class="data_option" id="update_data_form">
       <fieldset>
         <legend>Update data</legend>
         <div>
           <label for="update_key">name: </label>
-          <input class="update_data key" type="text" maxlength="15" id="update_key">
+          <input class="update_data" type="text" maxlength="15" id="update_key">
         </div>
 
         <div>
-          <label for="update_value">value: </label>
-          <input class="update_data value" type="number" max="1500" min="0" id="update_value">
+          <label for="update_value">new value: </label>
+          <input class="update_data" type="number" max="1500" min="0" id="update_value">
         </div>
       </fieldset>
+      <input type="submit" class="hidden">
     </form>
 
-    <form class="data_option">
+    <form class="data_option" id="delete_data_form">
       <fieldset>
         <legend>Delete data</legend>
         <div>
           <label for="delete_key">name: </label>
-          <input class="delete_data key" type="text" maxlength="15" id="delete_key">
+          <input class="delete_data" type="text" maxlength="15" id="delete_key">
         </div>
 
         <div>
           <label for="delete_value">value: </label>
-          <input class="delete_data value" type="number" max="1500" min="0" id="delete_value">
+          <input class="delete_data" type="number" max="1500" min="0" id="delete_value">
         </div>
       </fieldset>
+      <input type="submit" class="hidden">
     </form>
   </div>
 </div>
@@ -226,13 +233,13 @@ template.innerHTML = `
 
 customElements.define('chart-selector', 
   class extends HTMLElement {
-    #wrapper
-    #widthSelector
-    #heightSelector
-    #colorSelector
+    #WidthSelector
+    #HeightSelector
+    #colorSelectors
     #inputData
     #updateData
     #deleteData
+    #enterPressed
   
     constructor () {
       super()
@@ -240,13 +247,90 @@ customElements.define('chart-selector',
       this.attachShadow({ mode: 'open' })
         .appendChild(template.content.cloneNode(true))
 
-        this.#wrapper = this.shadowRoot.querySelector('#wrapper')
-        this.#widthSelector = this.shadowRoot.querySelector('#width')
-        this.#heightSelector = this.shadowRoot.querySelector('#height')
-        this.#colorSelector = this.shadowRoot.querySelectorAll('.color')
-        this.#inputData = this.shadowRoot.querySelectorAll('.input_data')
-        this.#updateData = this.shadowRoot.querySelectorAll('.update_data')
-        this.#deleteData = this.shadowRoot.querySelectorAll('.delete_data')
+        this.#colorSelectors = this.shadowRoot.querySelectorAll('.color')
+        this.#WidthSelector = this.shadowRoot.querySelector('#Width')
+        this.#HeightSelector = this.shadowRoot.querySelector('#Height')
+        this.#inputData = this.shadowRoot.querySelector('#input_data_form')
+        this.#updateData = this.shadowRoot.querySelector('#update_data_form')
+        this.#deleteData = this.shadowRoot.querySelector('#delete_data_form')
+
+        this.#setEnterPressedTo(false)
+    }
+
+    connectedCallback () {
+      this.#setEventListenersOnColorOptions()
+      this.#setEventListenersOnSizeOption()
+      this.#setEventListenersOnDataInputs()
+    }
+
+    #setEventListenersOnColorOptions () {
+      this.#colorSelectors.forEach((color) => {
+        color.addEventListener('change', () => {
+          this.#emitCustomEvent('changeColor', color.getAttribute('id'))
+        })
+      })
+    }
+
+    #setEventListenersOnSizeOption () {
+      const sizeElements = [this.#WidthSelector, this.#HeightSelector]
+
+      sizeElements.forEach((element) => {
+        const type = element.getAttribute('id')
+        const eventName = `change${type}`
+
+        element.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter') {
+            this.#setEnterPressedTo(true) // Has to come before blurring target as to not handle the blur event right after.
+            event.target.blur()
+  
+            this.#emitCustomEvent(eventName, event.target.value)
+          }
+          this.#setEnterPressedTo(false)
+        })
+
+        element.addEventListener('blur', (event) => {
+          if (!this.#enterPressed) {
+            this.#emitCustomEvent(eventName, event.target.value)
+          }
+        })
+      })
+    }
+
+    #setEventListenersOnDataInputs () {
+      const dataElements = [ this.#inputData, this.#updateData, this.#deleteData ]
+
+      dataElements.forEach((element) => {
+        element.addEventListener('submit', (event) => {
+          event.preventDefault()
+
+          const key = element.querySelectorAll('input')[0]
+          const value = element.querySelectorAll('input')[1]
+          const eventName = key.className
+
+          this.#emitCustomEvent(eventName, value.value, key.value)
+
+          key.value = ''
+          value.value = ''
+        })
+      })
+    }
+
+    #emitCustomEvent (event, value, keyName) {
+      if (keyName) {
+        this.dispatchEvent(new CustomEvent(event, {
+          bubbles: true,
+          detail: { key: keyName, value: parseInt(value)}
+        }))
+      } else {
+        this.dispatchEvent(new CustomEvent(event, {
+          bubbles: true,
+          detail: value
+        }))
+      }
+    }
+
+    #setEnterPressedTo (trueOrFalse) {
+      this.#enterPressed = trueOrFalse
     }
   }
 )

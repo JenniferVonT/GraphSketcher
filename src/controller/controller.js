@@ -28,7 +28,6 @@ export default class Controller {
   }
 
   processChartSelectionInput (input) {
-    console.log('process user input')
     switch (input) {
       case 'createPieChart':
         this.#createChartAndSetAsActive('pie')
