@@ -13,20 +13,42 @@ export default class Controller {
   #model
   #view
   #activeData
-  #activeChartType
   #activeChart
 
-  constructor() {
-    this.#model = new Model()
+  constructor(model) {
+    this.#model = model
+    this.#view = new View(this)
 
     this.#activeData = { title: '', data: [] }
-    this.#activeChartType = null
     this.#activeChart = null
   }
 
   startApplication () {
-    this.#view = new View()
     this.#view.showStartPage()
+  }
+
+  processChartSelectionInput (input) {
+    console.log('process user input')
+    switch (input) {
+      case 'createPieChart':
+        this.#createChartAndSetAsActive('pie')
+        this.#view.showEditorView(this.#activeChart.getCanvasElement())
+        break;
+      case 'createColumnChart':
+        this.#createChartAndSetAsActive('column')
+        this.#view.showEditorView(this.#activeChart.getCanvasElement())
+        break;
+      case 'createLineChart':
+        this.#createChartAndSetAsActive('line')
+        this.#view.showEditorView(this.#activeChart.getCanvasElement())
+        break;
+      default:
+        break;
+    }
+  }
+
+  #createChartAndSetAsActive (typeOfChart) {
+    this.#activeChart = this.#model.createNewChart(typeOfChart)
   }
 
   #createURLfromCanvasElement (canvasChartElement) {

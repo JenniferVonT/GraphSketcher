@@ -118,6 +118,29 @@ main {
   transform: scale(1.2);
 }
 
+.starting_page_select_btns:active {
+  transform: scale(1.1);
+}
+
+#edit_chart_wrapper {
+  display: flex;
+  margin-top: 40px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#chart_preview {
+  border: 1px solid black;
+  border-radius: 5px;
+  background-color: #ffffffc9;
+  width: min-content;
+}
+
+#edit_selectors {
+  display: flex;
+}
+
 footer {
   grid-area: footer;
   background-color: #00000041;

@@ -6,12 +6,14 @@
  */
 
 import Controller from './controller/controller.js'
+import Model from './model/model.js'
 
 /**
  * Instantiates a new view and calls the first startPage method.
  */
 function startApplication () {
-  const controller = new Controller()
+  const model = new Model
+  const controller = new Controller(model)
 
   controller.startApplication()
 }

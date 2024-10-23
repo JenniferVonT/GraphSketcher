@@ -6,32 +6,31 @@
  * @version 1.0.0
  */
 
-import Controller from '../controller/controller.js'
-
 export default class View {
   #controller
-  #startBtn
-  #savedGraphBtn
-  #documentBody
+  #navStartBtn
+  #navSavedGraphBtn
+  #startPage
+  #savedGraphsPage
 
-  constructor() {
-    this.#controller = new Controller()
-
-    this.#startBtn = document.querySelector('#nav_start')
-    this.#savedGraphBtn = document.querySelector('#nav_saved_graphs')
-    this.#documentBody = document.querySelector('main')
+  constructor(controller) {
+    this.#controller = controller
+    this.#navStartBtn = document.querySelector('#nav_start')
+    this.#navSavedGraphBtn = document.querySelector('#nav_saved_graphs')
+    this.#startPage = document.querySelector('#starting_page')
+    this.#savedGraphsPage = document.querySelector('#saved_page')
 
     this.#configureNavigationButtons()
   }
 
   #configureNavigationButtons () {
-    this.#startBtn.addEventListener('click', (event) => {
+    this.#navStartBtn.addEventListener('click', (event) => {
       event.preventDefault()
-
+  
       this.showStartPage()
     })
 
-    this.#savedGraphBtn.addEventListener('click', (event) => {
+    this.#navSavedGraphBtn.addEventListener('click', (event) => {
       event.preventDefault()
 
       this.showSavedChartsPage()
@@ -39,10 +38,10 @@ export default class View {
   }
 
   showStartPage () {
-    this.#setupStartingSelectButtons()
+    this.#savedGraphsPage.classList.add('hidden')
+    this.#startPage.classList.remove('hidden')
 
-    const startPage = document.querySelector('#starting_page')
-    startPage.classList.remove('hidden')
+    this.#setupStartingSelectButtons()
   }
 
   #setupStartingSelectButtons () {
@@ -51,23 +50,35 @@ export default class View {
     const lineSelectButton = document.querySelector('#line_chart_select_icon')
 
     pieSelectButton.addEventListener('click', () => {
-      console.log('pie test')
+      this.#controller.processChartSelectionInput('createPieChart')
     })
 
     columnSelectButton.addEventListener('click', () => {
-      console.log('column test')
+      this.#controller.processChartSelectionInput('createColumnChart')
     })
 
     lineSelectButton.addEventListener('click', () => {
-      console.log('line test')
+      this.#controller.processChartSelectionInput('createLineChart')
     })
+  }
+
+  showEditorView (canvasElementToShow) {
+    console.log('show editor')
+    document.querySelector('#starting_page').classList.add('hidden')
+    document.querySelector('#edit_chart_wrapper').classList.remove('hidden')
+
+    const chartPreview = document.querySelector('#chart_preview')
+    chartPreview.append(canvasElementToShow)
   }
 
   showSavedChartsPage() {
     // TO-DO: Implement the saved page.
+    this.#startPage.classList.add('hidden')
+    this.#savedGraphsPage.classList.remove('hidden')
+
+    this.#savedGraphsPage.append(document.createElement('p').textContent = 'TESTING!!')
+
     // Insert the saved graphs/charts into the DOM.
-    const p = document.createElement('p')
-    this.#documentBody .append(p.textContent = 'SAVED PAGE! \n')
   }
 
   showNotifications() {

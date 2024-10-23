@@ -11,11 +11,11 @@ Manual testing is more appropiate for this application, each use case handles a 
 
 ## UC1 Creating a graph/chart
 
-**TC1.1** - Create a column chart.
+**TC1.1** - Create a pie chart.
 
-**Input:**
+**Input:** Click the pie chart icon on the starting page.
 
-**Expected result:**
+**Expected result:** An editor should open up where the user can enter datapoints, change size and color of the chart.
 
 ## UC2 Customizing a graph/chart
 
