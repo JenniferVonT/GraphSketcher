@@ -13,7 +13,7 @@ export default class View {
   #startPage
   #savedGraphsPage
 
-  constructor(controller) {
+  constructor (controller) {
     this.#controller = controller
     this.#navStartBtn = document.querySelector('#nav_start')
     this.#navSavedGraphBtn = document.querySelector('#nav_saved_graphs')
@@ -56,11 +56,31 @@ export default class View {
     })
   }
 
-  // TO-DO: finish handling all the custom events from the editor.
-  #configureEditor () {
+  #configureEditorEvents () {
     const editorOptions = document.querySelector('chart-selector')
 
-    editorOptions.addEventListener('test', (event) => {
+    editorOptions.addEventListener('input_data', (event) => {
+      console.log(event.detail)
+      this.#handleDataInEditor('input', event.detail)
+    })
+
+    editorOptions.addEventListener('update_data', (event) => {
+      console.log(event.detail)
+    })
+
+    editorOptions.addEventListener('delete_data', (event) => {
+      console.log(event.detail)
+    })
+
+    editorOptions.addEventListener('changeWidth', (event) => {
+      console.log(event.detail)
+    })
+
+    editorOptions.addEventListener('changeHeight', (event) => {
+      console.log(event.detail)
+    })
+
+    editorOptions.addEventListener('changeColor', (event) => {
       console.log(event.detail)
     })
   }
@@ -69,6 +89,8 @@ export default class View {
     // Clear the preview from the editor.
     const chartPreview = document.querySelector('#chart_preview')
     const activeChart = chartPreview.firstElementChild
+
+    this.#controller.unsetActiveChart()
     
     if (activeChart) {
       chartPreview.removeChild(activeChart)
@@ -81,17 +103,23 @@ export default class View {
   }
 
   showEditorView (canvasElementToShow) {
-    this.#configureEditor()
+    this.#configureEditorEvents()
     document.querySelector('#starting_page').classList.add('hidden')
     document.querySelector('#edit_chart_wrapper').classList.remove('hidden')
 
-    const chartPreview = document.querySelector('#chart_preview')
-    chartPreview.append(canvasElementToShow)
+    this.updateChartPreviewInEditor(canvasElementToShow)
   }
 
+  updateChartPreviewInEditor (updatedCanvasElement) {
+    const chartPreview = document.querySelector('#chart_preview')
+    chartPreview.prepend(updatedCanvasElement)
+  }
 
+  #handleDataInEditor (eventType, data) {
 
-  showSavedChartsPage() {
+  }
+
+  showSavedChartsPage () {
     // TO-DO: Implement the saved page.
     this.#startPage.classList.add('hidden')
     this.#savedGraphsPage.classList.remove('hidden')
@@ -101,7 +129,7 @@ export default class View {
     // Insert the saved graphs/charts into the DOM.
   }
 
-  showNotifications() {
+  showNotifications () {
 
   }
 }

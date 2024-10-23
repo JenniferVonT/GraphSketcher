@@ -15,10 +15,6 @@ export default class DataSaver {
     // TO-DO: Save chart data as stringified JSON in localstorage.
   }
 
-  updateChart (chart, title) {
-    // TO-DO: Update the chart data as stringified JSON in localstorage.
-  }
-
   deleteChart (id) {
     // TO-DO: Delete he chart from the localstorage.
   }

@@ -8,19 +8,17 @@
 
 import DataSaver from './dataSaver.js'
 import DataVisualizer from '@jenvont/datavisualizer'
-import Validator from './validator.js'
 
 export default class Model {
+  #maxDataPoints = 20
   #dataSaver
   #dataVisualizer
-  #validator
   #activeChart
   #activeTitle
 
   constructor() {
     this.#dataSaver = new DataSaver()
     this.#dataVisualizer = new DataVisualizer()
-    this.#validator = new Validator()
 
     this.#activeChart = null
     this.#activeTitle = null
@@ -62,44 +60,41 @@ export default class Model {
   }
 
   updateChartHeight (height) {
-    if (this.#validator.isHeightorWidthValid(heigth)) {
-      this.#activeChart.setHeightTo(height)
+    this.#activeChart.setHeightTo(height)
 
-      return this.#activeChart
-    }
+    return this.#activeChart
   }
 
   updateChartWidth (width) {
-    if (this.#validator.isHeightorWidthValid(width)) {
-      this.#activeChart.setWidthTo(width)
+    this.#activeChart.setWidthTo(width)
 
-      return this.#activeChart
-    }
+    return this.#activeChart
   }
 
   /**
    * @param {String} color - Update to red, green, blue or yellow.
    */
   updateChartColor (color) {
-    if (this.#validator.isColorValid(color)) {
-      this.#activeChart.setColorTheme(color)
+    this.#activeChart.setColorTheme(color)
 
-      return this.#activeChart
-    }
+    return this.#activeChart
   }
 
-  updateChartDataValue (nameTag, oldValue, newValue) {
-    if (this.#validator.isDataValueValid(newValue) && oldValue !== newValue) {
-      this.#activeChart.updateDataPoint(nameTag, oldValue, newValue)
+  updateChartDataValue (nameKey, oldValue, newValue) {
+    this.#activeChart.updateDataPoint(nameKey, oldValue, newValue)
 
-      return this.#activeChart
+    return this.#activeChart
+  }
+
+  insertNewDataPoint (key, value) {
+    const existingDataPoints = Object.keys(this.#activeChart.getDataPoints())
+    if ((existingDataPoints + 1) <= this.#maxDataPoints) {
+      this.#activeChart.insertDataPoint(key, value)
     }
   }
 
   updateTitle (newTitle) {
-    if (this.#validator.isTitleValid(newTitle)) {
-      this.#activeTitle = newTitle
-    }
+    this.#activeTitle = newTitle
   }
 
   deleteChart (chart) {

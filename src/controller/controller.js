@@ -6,18 +6,20 @@
  * @version 1.0.0
  */
 
-import Model from '../model/model.js'
 import View from '../view/view.js'
+import Validator from '../model/validator.js'
 
 export default class Controller {
   #model
   #view
+  #validator
   #activeData
   #activeChart
 
   constructor(model) {
     this.#model = model
     this.#view = new View(this)
+    this.#validator = new Validator()
 
     this.#activeData = { title: '', data: [] }
     this.#activeChart = null
@@ -48,6 +50,21 @@ export default class Controller {
 
   #createChartAndSetAsActive (typeOfChart) {
     this.#activeChart = this.#model.createNewChart(typeOfChart)
+  }
+
+  processEditorColorChange (colorToChangeTo) {
+    if (this.#validator.isColorValid(colorToChangeTo)) {
+      this.#activeChart = this.#model.updateChartColor(colorToChangeTo)
+      this.#view.updateChartPreviewInEditor(this.#activeChart.getCanvasElement())
+    }
+  }
+
+  processEditorDataInput (key, value) {
+    this.#activeChart = this.#model
+  }
+
+  unsetActiveChart() {
+    this.#activeChart = null
   }
 
   #createURLfromCanvasElement (canvasChartElement) {

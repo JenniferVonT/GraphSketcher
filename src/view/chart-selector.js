@@ -303,14 +303,19 @@ customElements.define('chart-selector',
         element.addEventListener('submit', (event) => {
           event.preventDefault()
 
-          const key = element.querySelectorAll('input')[0]
-          const value = element.querySelectorAll('input')[1]
-          const eventName = key.className
+          const keyInput = element.querySelectorAll('input')[0]
+          const valueInput = element.querySelectorAll('input')[1]
 
-          this.#emitCustomEvent(eventName, value.value, key.value)
+          const key = keyInput.value
+          const value = valueInput.value
+          const eventName = keyInput.className
 
-          key.value = ''
-          value.value = ''
+          if (key && value) {
+            this.#emitCustomEvent(eventName, value, key)
+
+            keyInput.value = ''
+            valueInput.value = ''
+          }
         })
       })
     }
