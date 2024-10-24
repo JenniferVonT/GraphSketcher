@@ -110,6 +110,7 @@ export default class View {
 
   showEditorView (canvasElementToShow) {
     this.#configureEditorEvents()
+    this.#configurePersistenceButtonsInEditor()
     document.querySelector('#starting_page').classList.add('hidden')
     document.querySelector('#edit_chart_wrapper').classList.remove('hidden')
 
@@ -146,6 +147,47 @@ export default class View {
     })
 
     return list
+  }
+
+  #configurePersistenceButtonsInEditor () {
+    const resetButton = document.querySelector('#clear_editor_btn')
+    const saveButton = document.querySelector('#save_chart_btn')
+    const downloadButton = document.querySelector('#download_chart_btn')
+
+    this.#setEventListenerForReset(resetButton)
+    this.#setEventListenerForSave(saveButton)
+    this.#setEventListenerForDownload(downloadButton)
+  }
+
+  #setEventListenerForReset (buttonElement) {
+    buttonElement.addEventListener('click', (event) => {
+      event.preventDefault()
+
+      this.#updateEditorPreviewReset()
+    })
+  }
+
+  #updateEditorPreviewReset () {
+    const canvasType = document.querySelector('canvas').getAttribute('class')
+    const updateTypeName = `create${canvasType.charAt(0).toUpperCase() + canvasType.slice(1)}`
+
+    this.#clearEditorPreview()
+    this.#controller.processChartSelectionInput(updateTypeName)
+  }
+
+  #setEventListenerForSave (buttonElement) {
+    buttonElement.addEventListener('click', (event) => {
+      event.preventDefault()
+
+      this.#controller.saveActiveChart()
+    })
+  }
+
+  #setEventListenerForDownload (buttonElement) {
+    buttonElement.addEventListener('click', (event) => {
+      event.preventDefault()
+
+    })
   }
 
   #configureEditorEvents () {

@@ -128,6 +128,10 @@ export default class Controller {
     }
   }
 
+  saveActiveChart() {
+    
+  }
+
   #createURLfromCanvasElement (canvasChartElement) {
     // TO-DO: Implement converting canvas element to a URL.
   }
