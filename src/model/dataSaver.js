@@ -10,8 +10,10 @@ export default class DataSaver {
   #maxStorageValues = 5
 
   saveChart (id, data) {
+    const stringifiedData = JSON.stringify(data)
+  
     if (localStorage.length < this.#maxStorageValues || this.#isChartAlreadySaved) {
-      localStorage.setItem(id, data)
+      localStorage.setItem(id, stringifiedData)
     }
   }
 

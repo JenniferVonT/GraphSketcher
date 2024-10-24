@@ -119,7 +119,7 @@ export default class Model {
         color: this.#activeColor,
         data: this.#activeChart.getDataPoints(),
       }
-      this.#dataSaver.saveChart(this.#activeId, JSON.stringify(chartData))
+      this.#dataSaver.saveChart(this.#activeId, chartData)
     }
   }
 
@@ -140,9 +140,6 @@ export default class Model {
     return this.#activeChart
   }
 
-  /**
-   * @param {String} color - Update to red, green, blue or yellow.
-   */
   updateChartColor (color) {
     this.#activeChart.setColorTheme(color)
     this.#activeColor = color
@@ -157,8 +154,11 @@ export default class Model {
   }
 
   insertNewDataPoint (key, value) {
-    this.#activeChart.insertDataPoint(key, value)
+    const existingData = Object.keys(this.#activeChart.getDataPoints()).length
 
+    if ((existingData + 1) <= this.#maxDataPoints) {
+      this.#activeChart.insertDataPoint(key, value)
+    }
     return this.#activeChart
   }
 
