@@ -9,13 +9,6 @@
 export default class Validator {
   #VALID_COLORS = ['red', 'green', 'blue', 'yellow']
 
-  isHeightorWidthValid (measurement) {
-    if (measurement && typeof measurement === 'number' && measurement > 0) {
-      return true
-    }
-    return false
-  }
-
   isColorValid (color) {
     if (color && typeof color === 'String' && this.#VALID_COLORS.includes(color.toLowerCase())) {
       return true

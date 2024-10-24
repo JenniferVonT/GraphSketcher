@@ -105,4 +105,8 @@ export default class Model {
   deleteChart (chart) {
     this.#dataSaver.deleteChart(chart)
   }
+
+  getDataFromActiveChart () {
+    return this.#activeChart.getDataPoints()
+  }
 }

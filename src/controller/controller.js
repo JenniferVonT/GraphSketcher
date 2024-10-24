@@ -7,19 +7,17 @@
  */
 
 import View from '../view/view.js'
-import Validator from '../model/validator.js'
+import Validator from './validator.js'
 
 export default class Controller {
   #model
   #view
   #validator
-  #activeChart
 
   constructor(model) {
     this.#model = model
     this.#view = new View(this)
     this.#validator = new Validator()
-    this.#activeChart = null
   }
 
   startApplication () {
@@ -29,73 +27,105 @@ export default class Controller {
   processChartSelectionInput (input) {
     switch (input) {
       case 'createPieChart':
-        this.#createChartAndSetAsActive('pie')
-        this.#view.showEditorView(this.#activeChart.getCanvasElement())
+        this.#view.showEditorView(this.#createChart('pie').getCanvasElement())
         break;
       case 'createColumnChart':
-        this.#createChartAndSetAsActive('column')
-        this.#view.showEditorView(this.#activeChart.getCanvasElement())
+        this.#view.showEditorView(this.#createChart('column').getCanvasElement())
         break;
       case 'createLineChart':
-        this.#createChartAndSetAsActive('line')
-        this.#view.showEditorView(this.#activeChart.getCanvasElement())
+        this.#view.showEditorView(this.#createChart('line').getCanvasElement())
         break;
       default:
         break;
     }
   }
 
-  #createChartAndSetAsActive (typeOfChart) {
-    this.#activeChart = this.#model.createNewChart(typeOfChart)
+  #createChart (typeOfChart) {
+    return this.#model.createNewChart(typeOfChart)
   }
 
   processEditorColorChange (colorToChangeTo) {
     if (this.#validator.isColorValid(colorToChangeTo)) {
-      this.#activeChart = this.#model.updateChartColor(colorToChangeTo)
+      const chart = this.#model.updateChartColor(colorToChangeTo)
 
-      this.#updateEditorPreview()
+      this.#updateEditorPreview(chart.getCanvasElement())
     }
   }
 
   processEditorDataInput (key, value) {
     if (this.#validator.isTitleValid(key) && this.#validator.isDataValueValid(value)) {
-      this.#activeChart = this.#model.insertNewDataPoint(key, value)
+      const chart = this.#model.insertNewDataPoint(key, value)
+      const dataPoints = this.#model.getDataFromActiveChart()
 
-      this.#updateEditorPreview()
+      this.#updateEditorPreview(chart.getCanvasElement(), dataPoints)
     }
   }
 
   processEditorDataChange (key, newValue, oldValue) {
-    if (this.#validator.isTitleValid(key) && this.#validator.isDataValueValid(newValue)) {
-      if (parseInt(newValue) !== parseInt(oldValue)) {
-        this.#activeChart = this.#model.updateChartDataValue(key, parseInt(oldValue), parseInt(newValue))
+    const newValueInt = parseInt(newValue)
+    const oldValueInt = parseInt(oldValue)
 
-        this.#updateEditorPreview()
+    if (this.#validator.isTitleValid(key) && this.#validator.isDataValueValid(newValueInt)) {
+      if (newValueInt !== oldValueInt && this.#isDataPointPresent(key)) {
+        const chart = this.#model.updateChartDataValue(key, oldValueInt, newValueInt)
+        const dataPoints = this.#model.getDataFromActiveChart()
+
+        this.#updateEditorPreview(chart.getCanvasElement(), dataPoints)
       }
     }
   }
 
   processEditorDataDelete (key, value) {
-    if (this.#validator.isTitleValid(key) && this.#validator.isDataValueValid(value)) {
-      const existingDataPoints = this.#activeChart.getDataPoints()
+    const valueInt = parseInt(value)
 
-      const doesDataPointExist = existingDataPoints[key]
+    if (this.#validator.isTitleValid(key) && this.#validator.isDataValueValid(valueInt)) {
+      if (this.#isDataPointPresent(key)) {
+        const chart = this.#model.deleteDataPoint(key, valueInt)
+        const dataPoints = this.#model.getDataFromActiveChart()
 
-      if (doesDataPointExist) {
-        this.#activeChart = this.#model.deleteDataPoint(key, parseInt(value))
+        this.#updateEditorPreview(chart.getCanvasElement(), dataPoints)
       }
-
-      this.#updateEditorPreview()
     }
   }
 
-  #updateEditorPreview () {
-    this.#view.updateChartPreviewInEditor(this.#activeChart.getCanvasElement())
-    this.#view.updateDataListPreview(this.#activeChart.getDataPoints())
+  #isDataPointPresent (key) {
+    const savedDataPoints = this.#model.getDataFromActiveChart()
+
+    const foundDataPoint = savedDataPoints[key]
+
+    if (foundDataPoint) {
+      return true
+    }
+    return false
   }
 
-  unsetActiveChart() {
-    this.#activeChart = null
+  processEditorSizeChange (sizeType, value) {
+    const valueInt = parseInt(value)
+
+    if (!this.#validator.isDataValueValid(valueInt)) {
+      return
+    }
+
+    switch (sizeType) {
+      case 'width':
+        const updateChartWidth = this.#model.updateChartWidth(valueInt)
+        this.#updateEditorPreview(updateChartWidth.getCanvasElement())
+        break;
+      case 'height':
+        const updatedChartHeight = this.#model.updateChartHeight(valueInt)
+        this.#updateEditorPreview(updatedChartHeight.getCanvasElement())
+        break;
+      default:
+        break;
+    }
+  }
+
+  #updateEditorPreview (canvasElement, dataPoints) {
+    this.#view.updateChartPreviewInEditor(canvasElement)
+
+    if (dataPoints) {
+      this.#view.updateDataListPreview(dataPoints)
+    }
   }
 
   #createURLfromCanvasElement (canvasChartElement) {
