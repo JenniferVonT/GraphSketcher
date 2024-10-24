@@ -68,7 +68,7 @@ export default class View {
     })
 
     editorOptions.addEventListener('delete_data', (event) => {
-      console.log(event.detail)
+      this.#handleDataInEditor('delete', event.detail)
     })
 
     editorOptions.addEventListener('changeWidth', (event) => {
@@ -151,7 +151,7 @@ export default class View {
         }
         break;
       case 'delete':
-
+        this.#controller.processEditorDataDelete(data.key, data.value)
         break;
       default:
         break;

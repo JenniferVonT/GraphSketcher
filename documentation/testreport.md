@@ -12,7 +12,8 @@ Current test status:
 |  TC2.3  |   ✅   |       |
 |  TC2.4  |   ✅   |       |
 |  TC2.5  |   ✅   |       |
-|  TC2.6  |      |       |
+|  TC2.6  |   ✅   |       |
+|  TC2.7  |   ✅   |       |
 
 ## Manual testing
 Manual testing is more appropiate for this application, each use case handles a different functionality in the application and they are all tested both on a local server during development but also when the application is launched since it will be launched (and connected to the GitHub repo with auto updating) from the start of the development.
@@ -93,11 +94,29 @@ For all tests first do one step from any test case in UC1 (Open the editor) to e
 
 **Expected result:** Nothing should happen with the preview. The values in both fields should disappear.
 
-**TC2.6** - 
+**TC2.6** - Delete an existing datapoint
 
 **Input:** 
+- First do the input for TC2.1
+- Click the input field `name` in the `Delete data` box.
+- Enter 'test'
+- Click the input field `value` in the `Delete data` box.
+- Enter '123'
+- Press enter.
 
-**Expected result:**
+**Expected result:** The preview should update with the datapoint removed, both from the chart and data list. The values in both fields should disappear.
+
+**TC2.7** -  Change a non existent data point.
+
+**Input:**
+- First do the input for TC2.1
+- Click the input field `name` in the `Delete data` box.
+- Enter 'test123'
+- Click the input field `value` in the `Delete data` box.
+- Enter '123'
+- Press enter.
+
+**Expected result:** Nothing should happen with the preview. The values in both fields should disappear.
 
 ## UC3 Deleting a graph/chart
 

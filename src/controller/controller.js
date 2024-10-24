@@ -76,7 +76,17 @@ export default class Controller {
   }
 
   processEditorDataDelete (key, value) {
+    if (this.#validator.isTitleValid(key) && this.#validator.isDataValueValid(value)) {
+      const existingDataPoints = this.#activeChart.getDataPoints()
 
+      const doesDataPointExist = existingDataPoints[key]
+
+      if (doesDataPointExist) {
+        this.#activeChart = this.#model.deleteDataPoint(key, parseInt(value))
+      }
+
+      this.#updateEditorPreview()
+    }
   }
 
   #updateEditorPreview () {

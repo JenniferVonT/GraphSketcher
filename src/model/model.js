@@ -92,6 +92,12 @@ export default class Model {
     return this.#activeChart
   }
 
+  deleteDataPoint (key, value) {
+    this.#activeChart.deleteDataPoint(key, value)
+
+    return this.#activeChart
+  }
+
   updateTitle (newTitle) {
     this.#activeTitle = newTitle
   }
