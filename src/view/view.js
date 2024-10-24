@@ -168,7 +168,7 @@ export default class View {
     })
 
     editorOptions.addEventListener('changeHeight', (event) => {
-      this.#routeNewHeightData('height', event.detail)
+      this.#routeNewHeightData(event.detail)
     })
 
     editorOptions.addEventListener('changeColor', (event) => {
