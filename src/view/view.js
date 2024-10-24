@@ -72,15 +72,15 @@ export default class View {
     })
 
     editorOptions.addEventListener('changeWidth', (event) => {
-      console.log(event.detail)
+      this.#handleVisualChangesInEditor('width', event.detail)
     })
 
     editorOptions.addEventListener('changeHeight', (event) => {
-      console.log(event.detail)
+      this.#handleVisualChangesInEditor('height', event.detail)
     })
 
     editorOptions.addEventListener('changeColor', (event) => {
-      console.log(event.detail)
+      this.#handleVisualChangesInEditor('color', event.detail)
     })
   }
 
@@ -88,8 +88,6 @@ export default class View {
     // Clear the preview from the editor.
     const chartPreview = document.querySelector('#chart_preview')
     const activeChart = chartPreview.firstElementChild
-
-    this.#controller.unsetActiveChart()
     
     if (activeChart) {
       chartPreview.removeChild(activeChart)
@@ -152,6 +150,22 @@ export default class View {
         break;
       case 'delete':
         this.#controller.processEditorDataDelete(data.key, data.value)
+        break;
+      default:
+        break;
+    }
+  }
+
+  #handleVisualChangesInEditor (type, value) {
+    switch (type) {
+      case 'color':
+        this.#controller.processEditorColorChange(value)
+        break;
+      case 'width':
+        this.#controller.processEditorSizeChange(type, value)
+        break;
+      case 'height':
+        this.#controller.processEditorSizeChange(type, value)
         break;
       default:
         break;

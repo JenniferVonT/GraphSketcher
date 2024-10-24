@@ -131,7 +131,7 @@ main {
 #preview {
   display: flex;
   flex-direction: row;
-  align-items: space-evenly;
+  align-items: center;
 }
 
 #data_list_preview {

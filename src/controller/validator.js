@@ -10,7 +10,7 @@ export default class Validator {
   #VALID_COLORS = ['red', 'green', 'blue', 'yellow']
 
   isColorValid (color) {
-    if (color && typeof color === 'String' && this.#VALID_COLORS.includes(color.toLowerCase())) {
+    if (color && this.#VALID_COLORS.includes(color.toLowerCase())) {
       return true
     }
     return false

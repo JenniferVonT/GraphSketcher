@@ -170,12 +170,12 @@ template.innerHTML = `
   <div id="size_selectors">
     <div class="size_option">
       <label for="Width">Width:</label>
-      <input id="Width" type="number" max="1500" min="0" autocomplete="off">
+      <input id="Width" type="number" max="600" min="0" autocomplete="off" placeholder="300">
     </div>
 
     <div class="size_option">
       <label for="Height">Height:</label>
-      <input id="Height" type="number" max="1500" min="0" autocomplete="off">
+      <input id="Height" type="number" max="600" min="0" autocomplete="off" placeholder="200">
     </div>
   </div>
 

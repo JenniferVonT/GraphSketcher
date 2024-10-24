@@ -102,7 +102,7 @@ export default class Controller {
   processEditorSizeChange (sizeType, value) {
     const valueInt = parseInt(value)
 
-    if (!this.#validator.isDataValueValid(valueInt)) {
+    if (!this.#validator.isDataValueValid(valueInt) || valueInt > 600) {
       return
     }
 
