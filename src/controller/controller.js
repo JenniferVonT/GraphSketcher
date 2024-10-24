@@ -67,7 +67,11 @@ export default class Controller {
 
   processEditorDataChange (key, newValue, oldValue) {
     if (this.#validator.isTitleValid(key) && this.#validator.isDataValueValid(newValue)) {
+      if (parseInt(newValue) !== parseInt(oldValue)) {
+        this.#activeChart = this.#model.updateChartDataValue(key, parseInt(oldValue), parseInt(newValue))
 
+        this.#updateEditorPreview()
+      }
     }
   }
 

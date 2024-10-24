@@ -64,7 +64,7 @@ export default class View {
     })
 
     editorOptions.addEventListener('update_data', (event) => {
-      console.log(event.detail)
+      this.#handleDataInEditor('update', event.detail)
     })
 
     editorOptions.addEventListener('delete_data', (event) => {
@@ -127,6 +127,8 @@ export default class View {
       const data = document.createElement('p')
 
       data.innerHTML = `<b>name: </b> ${key}, <b>value: </b> ${value}`
+      data.setAttribute('key', key)
+      data.setAttribute('value', value)
 
       listPoint.append(data)
       list.append(listPoint)
@@ -141,7 +143,12 @@ export default class View {
         this.#controller.processEditorDataInput(data.key, data.value)
         break;
       case 'update':
+        const dataElement = document.querySelector(`[key="${data.key}"]`)
 
+        if (dataElement) {
+          const oldValue = dataElement.getAttribute('value')
+          this.#controller.processEditorDataChange(data.key, data.value, oldValue)
+        }
         break;
       case 'delete':
 
