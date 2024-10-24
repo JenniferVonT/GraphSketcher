@@ -124,7 +124,7 @@ export default class Controller {
     this.#view.updateChartPreviewInEditor(canvasElement)
 
     if (dataPoints) {
-      this.#view.updateDataListPreview(dataPoints)
+      this.#view.updateDataListPreviewInEditor(dataPoints)
     }
   }
 

@@ -21,16 +21,22 @@ export default class View {
     this.#savedGraphsPage = document.querySelector('#saved_page')
 
     this.#configureNavigationButtons()
-    this.#configureStartingSelectButtons()
   }
 
   #configureNavigationButtons () {
+    this.#setEventListenerForNavigationStart()
+    this.#setEventListenerForNavigationSaved()
+  }
+
+  #setEventListenerForNavigationStart () {
     this.#navStartBtn.addEventListener('click', (event) => {
       event.preventDefault()
   
       this.showStartPage()
     })
+  }
 
+  #setEventListenerForNavigationSaved () {
     this.#navSavedGraphBtn.addEventListener('click', (event) => {
       event.preventDefault()
 
@@ -38,62 +44,65 @@ export default class View {
     })
   }
 
+  showStartPage () {
+    this.#configureStartingSelectButtons()
+    this.#clearEditorPreview()
+    this.#hideAndShowElementsForStartPage()
+  }
+
   #configureStartingSelectButtons () {
+    const iconElements = this.#bindStartSelectIcons()
+    this.#setEventListenersForStartIcons(iconElements)
+  }
+
+  #bindStartSelectIcons () {
     const pieSelectButton = document.querySelector('#pie_chart_select_icon')
     const columnSelectButton = document.querySelector('#column_chart_select_icon')
     const lineSelectButton = document.querySelector('#line_chart_select_icon')
 
-    pieSelectButton.addEventListener('click', () => {
-      this.#controller.processChartSelectionInput('createPieChart')
-    })
+    const iconElements = [
+      { element: pieSelectButton, type: 'createPieChart' },
+      { element: columnSelectButton, type: 'createColumnChart' },
+      { element: lineSelectButton, type: 'createLineChart' }
+    ]
 
-    columnSelectButton.addEventListener('click', () => {
-      this.#controller.processChartSelectionInput('createColumnChart')
-    })
+    return iconElements
+  }
+  
+  #setEventListenersForStartIcons (iconElements) {
+    for (const icon of iconElements) {
+      const element = icon.element
+      const type = icon.type
 
-    lineSelectButton.addEventListener('click', () => {
-      this.#controller.processChartSelectionInput('createLineChart')
-    })
+      element.addEventListener('click', () => {
+        this.#controller.processChartSelectionInput(type)
+      })
+    }
   }
 
-  #configureEditorEvents () {
-    const editorOptions = document.querySelector('chart-selector')
-
-    editorOptions.addEventListener('input_data', (event) => {
-      this.#handleDataInEditor('input', event.detail)
-    })
-
-    editorOptions.addEventListener('update_data', (event) => {
-      this.#handleDataInEditor('update', event.detail)
-    })
-
-    editorOptions.addEventListener('delete_data', (event) => {
-      this.#handleDataInEditor('delete', event.detail)
-    })
-
-    editorOptions.addEventListener('changeWidth', (event) => {
-      this.#handleVisualChangesInEditor('width', event.detail)
-    })
-
-    editorOptions.addEventListener('changeHeight', (event) => {
-      this.#handleVisualChangesInEditor('height', event.detail)
-    })
-
-    editorOptions.addEventListener('changeColor', (event) => {
-      this.#handleVisualChangesInEditor('color', event.detail)
-    })
+  #clearEditorPreview () {
+    this.#clearChartPreview()
+    this.#clearDataListPreview()
   }
 
-  showStartPage () {
-    // Clear the preview from the editor.
+  #clearChartPreview () {
     const chartPreview = document.querySelector('#chart_preview')
     const activeChart = chartPreview.firstElementChild
     
     if (activeChart) {
       chartPreview.removeChild(activeChart)
     }
+  }
 
-    // Hide/Show the relevant elements.
+  #clearDataListPreview () {
+    const dataListPreview = document.querySelector('#data_list_preview')
+
+    if (dataListPreview) {
+      dataListPreview.innerHTML = ''
+    }
+  }
+
+  #hideAndShowElementsForStartPage () {
     this.#savedGraphsPage.classList.add('hidden')
     this.#startPage.classList.remove('hidden')
     document.querySelector('#edit_chart_wrapper').classList.add('hidden')
@@ -114,13 +123,17 @@ export default class View {
     chartPreview.prepend(updatedCanvasElement)
   }
 
-  updateDataListPreview (updatedDatapoints) {
-    const dataPointList = document.querySelector('#data_list_preview')
-    dataPointList.innerHTML = ''
+  updateDataListPreviewInEditor (updatedDatapoints) {
+    this.#clearDataListPreview()
 
+    const dataPointList = document.querySelector('#data_list_preview')
+    dataPointList.append(this.#createDataList(updatedDatapoints))
+  }
+
+  #createDataList (dataPoints) {
     const list = document.createElement('ul')
 
-    Object.entries(updatedDatapoints).forEach(([key, value]) => {
+    Object.entries(dataPoints).forEach(([key, value]) => {
       const listPoint = document.createElement('li')
       const data = document.createElement('p')
 
@@ -132,44 +145,64 @@ export default class View {
       list.append(listPoint)
     })
 
-    dataPointList.append(list)
+    return list
   }
 
-  #handleDataInEditor (eventType, data) {
-    switch (eventType) {
-      case 'input':
-        this.#controller.processEditorDataInput(data.key, data.value)
-        break;
-      case 'update':
-        const dataElement = document.querySelector(`[key="${data.key}"]`)
+  #configureEditorEvents () {
+    const editorOptions = document.querySelector('chart-selector')
 
-        if (dataElement) {
-          const oldValue = dataElement.getAttribute('value')
-          this.#controller.processEditorDataChange(data.key, data.value, oldValue)
-        }
-        break;
-      case 'delete':
-        this.#controller.processEditorDataDelete(data.key, data.value)
-        break;
-      default:
-        break;
+    editorOptions.addEventListener('input_data', (event) => {
+      this.#sendNewDataPointRequestFromEditor(event.detail.key, event.detail.value)
+    })
+
+    editorOptions.addEventListener('update_data', (event) => {
+      this.#sendUpdateDataPointRequestFromEditor(event.detail.key, event.detail.value)
+    })
+
+    editorOptions.addEventListener('delete_data', (event) => {
+      this.#sendDeleteDataPointRequestFromEditor(event.detail.key, event.detail.value)
+    })
+
+    editorOptions.addEventListener('changeWidth', (event) => {
+      this.#routeNewWidthData(event.detail)
+    })
+
+    editorOptions.addEventListener('changeHeight', (event) => {
+      this.#routeNewHeightData('height', event.detail)
+    })
+
+    editorOptions.addEventListener('changeColor', (event) => {
+      this.#routeNewColorTheme(event.detail)
+    })
+  }
+
+  #sendNewDataPointRequestFromEditor (key, value) {
+    this.#controller.processEditorDataInput(key, value)
+  }
+
+  #sendUpdateDataPointRequestFromEditor (key, newValue) {
+    const dataElement = document.querySelector(`[key="${key}"]`)
+
+    if (dataElement) {
+      const oldValue = dataElement.getAttribute('value')
+      this.#controller.processEditorDataChange(key, newValue, oldValue)
     }
   }
 
-  #handleVisualChangesInEditor (type, value) {
-    switch (type) {
-      case 'color':
-        this.#controller.processEditorColorChange(value)
-        break;
-      case 'width':
-        this.#controller.processEditorSizeChange(type, value)
-        break;
-      case 'height':
-        this.#controller.processEditorSizeChange(type, value)
-        break;
-      default:
-        break;
-    }
+  #sendDeleteDataPointRequestFromEditor (key, value) {
+    this.#controller.processEditorDataDelete(key, value)
+  }
+
+  #routeNewWidthData (newWidth) {
+    this.#controller.processEditorSizeChange('width', newWidth)
+  }
+
+  #routeNewHeightData (newHeight) {
+    this.#controller.processEditorSizeChange('height', newHeight)
+  }
+
+  #routeNewColorTheme (color) {
+    this.#controller.processEditorColorChange(color)
   }
 
   showSavedChartsPage () {
