@@ -24,7 +24,24 @@ export default class Controller {
     this.#view.showStartPage()
   }
 
+  processNavigationInput (input) {
+    switch (input) {
+      case 'start':
+        this.#model.clearActiveChart()
+        this.#view.showStartPage()
+        break;
+      case 'saved':
+        this.#model.clearActiveChart()
+        this.#view.showSavedChartsPage(this.#model.getAllSavedCharts())
+        break;
+      default:
+        break;
+    }
+  }
+
   processChartSelectionInput (input) {
+      this.#model.clearActiveChart()
+
     switch (input) {
       case 'createPieChart':
         this.#view.showEditorView(this.#createChart('pie').getCanvasElement())

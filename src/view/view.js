@@ -32,7 +32,7 @@ export default class View {
     this.#navStartBtn.addEventListener('click', (event) => {
       event.preventDefault()
   
-      this.showStartPage()
+      this.#controller.processNavigationInput('start')
     })
   }
 
@@ -40,15 +40,19 @@ export default class View {
     this.#navSavedGraphBtn.addEventListener('click', (event) => {
       event.preventDefault()
 
-      this.showSavedChartsPage()
+      this.#controller.processNavigationInput('saved')
     })
   }
 
   showStartPage () {
     this.#configureStartingSelectButtons()
     this.#clearEditorPreview()
+    this.#clearSavedPage()
     this.#hideAndShowElementsForStartPage()
-    this.#controller.clearActiveChart()
+  }
+
+  #clearSavedPage () {
+    this.#savedGraphsPage.innerHTML = ''
   }
 
   #configureStartingSelectButtons () {
@@ -82,8 +86,18 @@ export default class View {
   }
 
   #clearEditorPreview () {
+    this.#clearEditorInputs()
     this.#clearChartPreview()
     this.#clearDataListPreview()
+  }
+
+  #clearEditorInputs () {
+    try {
+      const selector = document.querySelector('chart-selector')
+      selector.clearAllInputs()
+    } catch (error) {
+      // Do nothing.
+    }
   }
 
   #clearChartPreview () {
@@ -249,14 +263,30 @@ export default class View {
     this.#controller.processEditorColorChange(color)
   }
 
-  showSavedChartsPage () {
-    // TO-DO: Implement the saved page.
+  showSavedChartsPage (savedCharts) {
+    this.#clearEditorPreview()
+    this.#hideAndShowElementsForSavedPage()
+
+    for (const chart of savedCharts) {
+      this.#savedGraphsPage.append(this.#buildSavedChartTemplate(chart))
+    }
+  }
+
+  #buildSavedChartTemplate(chart) {
+    const template = document.querySelector('#saved_page_template')
+    const savedChartBox = document.importNode(template.content, true)
+
+    savedChartBox.querySelector('.saved_preview').append(chart.canvas)
+    savedChartBox.querySelectorAll('.delete_chart')[0].setAttribute('id', chart.id)
+    savedChartBox.querySelectorAll('.download_saved_chart')[0].setAttribute('id', chart.id)
+
+    return savedChartBox
+  }
+
+  #hideAndShowElementsForSavedPage() {
     this.#startPage.classList.add('hidden')
     this.#savedGraphsPage.classList.remove('hidden')
-
-    this.#savedGraphsPage.append(document.createElement('p').textContent = 'TESTING!!')
-
-    // Insert the saved graphs/charts into the DOM.
+    document.querySelector('#edit_chart_wrapper').classList.add('hidden')
   }
 
   startDownload (downloadURL, chartType) {

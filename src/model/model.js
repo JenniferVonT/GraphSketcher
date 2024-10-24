@@ -29,23 +29,24 @@ export default class Model {
   /**
    * 
    * @param {String} chartType - 'Column', 'line' or 'pie'.
+   * @param {Object} dataPoints - Optional, is inserted at the start if present.
    */
-  createNewChart(chartType) {
+  createNewChart(chartType, dataPoints) {
     const type = chartType.toLowerCase()
 
     switch (type) {
       case 'column':
-        this.#activeChart = this.#dataVisualizer.createColumnChart()
+        this.#activeChart = this.#dataVisualizer.createColumnChart(dataPoints)
         this.#activeColor = 'blue'
   
         return this.#activeChart
       case 'pie':
-        this.#activeChart = this.#dataVisualizer.createPieChart()
+        this.#activeChart = this.#dataVisualizer.createPieChart(dataPoints)
         this.#activeColor = 'blue'
     
         return this.#activeChart
       case 'line':
-        this.#activeChart = this.#dataVisualizer.createLineChart()
+        this.#activeChart = this.#dataVisualizer.createLineChart(dataPoints)
         this.#activeColor = 'blue'
 
         return this.#activeChart
@@ -55,7 +56,34 @@ export default class Model {
   }
 
   getAllSavedCharts () {
-    return this.#dataSaver.getSavedCharts()
+    const savedCharts = this.#dataSaver.getAllSavedCharts()
+    const canvasElementsAndIds = []
+
+    for (const chart of savedCharts) {
+      const type = chart.payload.type.slice(0, (chart.payload.type.length - 5))
+      
+      let newChart
+
+      if (Object.keys(chart.payload.data).length > 0) {
+        newChart = this.createNewChart(type, chart.payload.data)
+      } else {
+        newChart = this.createNewChart(type)
+      }
+
+      this.#buildCanvasElement(chart.payload)
+
+      canvasElementsAndIds.push({ id: chart.id, canvas: this.getActiveChartCanvas()})
+
+      this.clearActiveChart()
+    }
+
+    return canvasElementsAndIds
+  }
+
+  #buildCanvasElement (options) {
+    this.#activeChart.setColorTheme(options.color)
+    this.#activeChart.setHeightTo(options.height)
+    this.#activeChart.setWidthTo(options.width)
   }
 
   saveActiveChart () {
@@ -72,8 +100,6 @@ export default class Model {
         color: this.#activeColor,
         data: this.#activeChart.getDataPoints(),
       }
-  
-      console.log(chartData)
       this.#dataSaver.saveChart(this.#activeId, JSON.stringify(chartData))
     }
   }

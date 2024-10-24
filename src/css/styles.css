@@ -178,7 +178,7 @@ main {
   height: 100%;
 }
 
-#editor_persistence_btns button {
+.persistence {
   background-color: #0000006b;
   height: 40px;
   width: 100%;
@@ -187,8 +187,34 @@ main {
   border: none;
 }
 
-#editor_persistence_btns button:hover {
+.persistence:hover {
   background-color: #000000a6;
+}
+
+#saved_page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.saved_chart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 10px;
+  padding-bottom: 30px;
+  border-bottom: 3px solid #0b1e2c9d;
+}
+
+.saved_chart_buttons {
+  display: flex;
+  flex-direction: row;
+}
+
+.delete_chart, .download_saved_chart {
+  margin: 5px;
+  width: 80px;
 }
 
 footer {

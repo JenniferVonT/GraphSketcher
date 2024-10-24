@@ -37,9 +37,9 @@
       <div id="edit_selectors">
         <chart-selector></chart-selector>
         <div id="editor_persistence_btns">
-          <button id="clear_editor_btn">Reset</button>
-          <button id="save_chart_btn">Save</button>
-          <button id="download_chart_btn">Download (PNG)</button>
+          <button class="persistence" id="clear_editor_btn">Reset</button>
+          <button class="persistence" id="save_chart_btn">Save</button>
+          <button class="persistence" id="download_chart_btn">Download (PNG)</button>
         </div>
       </div>
     </div>
@@ -54,5 +54,15 @@
     </i>
   </footer>
   <a id="download_link" class="hidden"></a>
+
+  <template id="saved_page_template">
+    <div class="saved_chart">
+      <div class="saved_preview"></div>
+      <div class="saved_chart_buttons">
+        <button class="persistence delete_chart">Delete</button>
+        <button class="persistence download_saved_chart">Download</button>
+      </div>
+    </div>
+  </template>
 </body>
 </html>

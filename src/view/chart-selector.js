@@ -337,5 +337,12 @@ customElements.define('chart-selector',
     #setEnterPressedTo (trueOrFalse) {
       this.#enterPressed = trueOrFalse
     }
+
+    clearAllInputs () {
+      const inputs = this.shadowRoot.querySelectorAll('input')
+      for (const input of inputs) {
+        input.value = ''
+      }
+    }
   }
 )

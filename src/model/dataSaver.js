@@ -27,13 +27,18 @@ export default class DataSaver {
   }
 
   getAllSavedCharts () {
-    const savedItems = {}
+    const savedItems = []
 
     for (let i = 0; i < this.#maxStorageValues; i++) {
       const key = localStorage.key(i)
       const value = localStorage.getItem(key)
 
-      savedItems[key] = value
+      if (key && value) {
+        savedItems[i] = {
+          id: key,
+          payload: JSON.parse(value)
+        }
+      }
     }
 
     return savedItems
