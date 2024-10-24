@@ -7,12 +7,12 @@ Current test status:
 |  TC1.1  |   ✅   |       |
 |  TC1.2  |   ✅   |       |
 |  TC1.3  |   ✅   |       |
-|  TC  |      |       |
-|  TC  |      |       |
-|  TC  |      |       |
-|  TC  |      |       |
-|  TC  |      |       |
-|  TC  |      |       |
+|  TC2.1  |   ✅   |       |
+|  TC2.2  |   ✅   |       |
+|  TC2.3  |   ✅   |       |
+|  TC2.4  |   ✅   |       |
+|  TC2.5  |   ✅   |       |
+|  TC2.6  |      |       |
 
 ## Manual testing
 Manual testing is more appropiate for this application, each use case handles a different functionality in the application and they are all tested both on a local server during development but also when the application is launched since it will be launched (and connected to the GitHub repo with auto updating) from the start of the development.
@@ -69,17 +69,29 @@ For all tests first do one step from any test case in UC1 (Open the editor) to e
 
 **Expected result:** Nothing should be updated, the values in the input field stays.
 
-**TC2.4** - 
+**TC2.4** - Change an existing data point.
 
 **Input:** 
+- First do the input for TC2.1
+- Click the input field `name` in the `Update data` box.
+- Enter 'test'
+- Click the input field `new value` in the `Update data` box.
+- Enter '321'
+- Press enter.
 
-**Expected result:**
+**Expected result:** The preview should update both with the chart and the data list. The values in both fields should disappear.
 
-**TC2.5** - 
+**TC2.5** - Change a non existent data point.
 
 **Input:** 
+- First do the input for TC2.1
+- Click the input field `name` in the `Update data` box.
+- Enter 'unknown'
+- Click the input field `new value` in the `Update data` box.
+- Enter '321'
+- Press enter.
 
-**Expected result:**
+**Expected result:** Nothing should happen with the preview. The values in both fields should disappear.
 
 **TC2.6** - 
 
