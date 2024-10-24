@@ -129,7 +129,11 @@ export default class Controller {
   }
 
   saveActiveChart() {
-    
+    this.#model.saveActiveChart()
+  }
+
+  clearActiveChart () {
+    this.#model.clearActiveChart()
   }
 
   #createURLfromCanvasElement (canvasChartElement) {

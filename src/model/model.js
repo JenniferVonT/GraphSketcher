@@ -14,14 +14,16 @@ export default class Model {
   #dataSaver
   #dataVisualizer
   #activeChart
-  #activeTitle
+  #activeId
+  #activeColor
 
   constructor() {
     this.#dataSaver = new DataSaver()
     this.#dataVisualizer = new DataVisualizer()
 
     this.#activeChart = null
-    this.#activeTitle = null
+    this.#activeColor = null
+    this.#activeId = null
   }
 
   /**
@@ -34,14 +36,17 @@ export default class Model {
     switch (type) {
       case 'column':
         this.#activeChart = this.#dataVisualizer.createColumnChart()
+        this.#activeColor = 'blue'
   
         return this.#activeChart
       case 'pie':
         this.#activeChart = this.#dataVisualizer.createPieChart()
+        this.#activeColor = 'blue'
     
         return this.#activeChart
       case 'line':
         this.#activeChart = this.#dataVisualizer.createLineChart()
+        this.#activeColor = 'blue'
 
         return this.#activeChart
       default:
@@ -54,9 +59,28 @@ export default class Model {
   }
 
   saveActiveChart () {
-    if (this.#activeChart) {
-      this.#dataSaver(this.#activeChart)
+    if (!this.#activeId) {
+      const id = this.#dataSaver.createUniqueID()
+      this.#activeId = id
     }
+
+    if (this.#activeChart) {
+      const chartData = {
+        type: this.#activeChart.getCanvasElement().getAttribute('class'),
+        height: this.#activeChart.getCanvasElement().height,
+        width: this.#activeChart.getCanvasElement().width,
+        color: this.#activeColor,
+        data: this.#activeChart.getDataPoints(),
+      }
+  
+      console.log(chartData)
+      this.#dataSaver.saveChart(this.#activeId, JSON.stringify(chartData))
+    }
+  }
+
+  clearActiveChart () {
+    this.#activeChart = null
+    this.#activeId = null
   }
 
   updateChartHeight (height) {
@@ -76,6 +100,7 @@ export default class Model {
    */
   updateChartColor (color) {
     this.#activeChart.setColorTheme(color)
+    this.#activeColor = color
 
     return this.#activeChart
   }
@@ -96,10 +121,6 @@ export default class Model {
     this.#activeChart.deleteDataPoint(key, value)
 
     return this.#activeChart
-  }
-
-  updateTitle (newTitle) {
-    this.#activeTitle = newTitle
   }
 
   deleteChart (chart) {

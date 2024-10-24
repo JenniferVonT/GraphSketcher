@@ -11,8 +11,32 @@ export default class DataSaver {
 
   constructor () {}
 
-  saveChart (chart, title) {
-    // TO-DO: Save chart data as stringified JSON in localstorage.
+  saveChart (id, data) {
+    if (localStorage.length < this.#maxStorageValues || this.#isChartAlreadySaved) {
+      localStorage.setItem(id, data)
+    }
+  }
+
+  getSavedChart (id) {
+    const savedChart = {}
+
+    savedChart['id'] = id
+    savedChart['data'] = localStorage.getItem(id)
+
+    return savedChart
+  }
+
+  getAllSavedCharts () {
+    const savedItems = {}
+
+    for (let i = 0; i < this.#maxStorageValues; i++) {
+      const key = localStorage.key(i)
+      const value = localStorage.getItem(key)
+
+      savedItems[key] = value
+    }
+
+    return savedItems
   }
 
   deleteChart (id) {
@@ -20,7 +44,35 @@ export default class DataSaver {
   }
   
   createUniqueID () {
-    // TO-DO: Create a unique id (check against saved charts so as not to have doublicate ids).
+    let id
+    do {
+      const generatedId = this.#generateID()
+
+      if (generatedId !== NaN && !this.#isChartAlreadySaved(generatedId)) {
+        id = generatedId
+      }
+    } while (!id)
+
+      return id
   }
 
+  #generateID () {
+    const randomValues = window.crypto.getRandomValues(new Uint8Array(3))
+    let randomValueString = randomValues.toString()
+    const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
+
+    randomValueString = randomValueString.replace(',', letters[parseInt(randomValueString.charAt(0))])
+    const id = randomValueString.replace(',', letters[parseInt(randomValueString.charAt(1))])
+
+    return id
+  }
+
+  #isChartAlreadySaved (id) {
+    const savedId = localStorage.getItem(id)
+
+    if (savedId) {
+      return true
+    }
+    return false
+  }
 }

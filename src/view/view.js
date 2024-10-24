@@ -48,6 +48,7 @@ export default class View {
     this.#configureStartingSelectButtons()
     this.#clearEditorPreview()
     this.#hideAndShowElementsForStartPage()
+    this.#controller.clearActiveChart()
   }
 
   #configureStartingSelectButtons () {
@@ -187,6 +188,7 @@ export default class View {
     buttonElement.addEventListener('click', (event) => {
       event.preventDefault()
 
+      // TO-DO: Implement downloading
     })
   }
 
@@ -255,9 +257,5 @@ export default class View {
     this.#savedGraphsPage.append(document.createElement('p').textContent = 'TESTING!!')
 
     // Insert the saved graphs/charts into the DOM.
-  }
-
-  showNotifications () {
-
   }
 }
