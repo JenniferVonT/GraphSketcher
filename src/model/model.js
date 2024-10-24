@@ -87,10 +87,9 @@ export default class Model {
   }
 
   insertNewDataPoint (key, value) {
-    const existingDataPoints = Object.keys(this.#activeChart.getDataPoints())
-    if ((existingDataPoints + 1) <= this.#maxDataPoints) {
-      this.#activeChart.insertDataPoint(key, value)
-    }
+    this.#activeChart.insertDataPoint(key, value)
+
+    return this.#activeChart
   }
 
   updateTitle (newTitle) {

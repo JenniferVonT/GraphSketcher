@@ -170,12 +170,12 @@ template.innerHTML = `
   <div id="size_selectors">
     <div class="size_option">
       <label for="Width">Width:</label>
-      <input id="Width" type="number" max="1500" min="0">
+      <input id="Width" type="number" max="1500" min="0" autocomplete="off">
     </div>
 
     <div class="size_option">
       <label for="Height">Height:</label>
-      <input id="Height" type="number" max="1500" min="0">
+      <input id="Height" type="number" max="1500" min="0" autocomplete="off">
     </div>
   </div>
 
@@ -185,12 +185,12 @@ template.innerHTML = `
         <legend>Input data</legend>
         <div>
           <label for="input_key">name: </label>
-          <input class="input_data" type="text" maxlength="15" id="input_key">
+          <input class="input_data" type="text" maxlength="15" id="input_key" autocomplete="off">
         </div>
 
         <div>
           <label for="input_value">value: </label>
-          <input class="input_data" type="number" max="1500" min="0" id="input_value">
+          <input class="input_data" type="number" id="input_value" autocomplete="off">
         </div>
       </fieldset>
       <input type="submit" class="hidden">
@@ -201,12 +201,12 @@ template.innerHTML = `
         <legend>Update data</legend>
         <div>
           <label for="update_key">name: </label>
-          <input class="update_data" type="text" maxlength="15" id="update_key">
+          <input class="update_data" type="text" maxlength="15" id="update_key" autocomplete="off">
         </div>
 
         <div>
           <label for="update_value">new value: </label>
-          <input class="update_data" type="number" max="1500" min="0" id="update_value">
+          <input class="update_data" type="number" id="update_value" autocomplete="off">
         </div>
       </fieldset>
       <input type="submit" class="hidden">
@@ -217,12 +217,12 @@ template.innerHTML = `
         <legend>Delete data</legend>
         <div>
           <label for="delete_key">name: </label>
-          <input class="delete_data" type="text" maxlength="15" id="delete_key">
+          <input class="delete_data" type="text" maxlength="15" id="delete_key" autocomplete="off">
         </div>
 
         <div>
           <label for="delete_value">value: </label>
-          <input class="delete_data" type="number" max="1500" min="0" id="delete_value">
+          <input class="delete_data" type="number" id="delete_value" autocomplete="off">
         </div>
       </fieldset>
       <input type="submit" class="hidden">

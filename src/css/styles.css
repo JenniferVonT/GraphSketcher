@@ -129,11 +129,35 @@ main {
   align-items: center;
 }
 
+#preview {
+  display: flex;
+  flex-direction: row;
+  align-items: space-evenly;
+}
+
+#data_list_preview {
+  height: 200px;
+  background-color:#ffffffa1;
+  width: 100%;
+  display: flex;
+  overflow-y: auto;
+  justify-content: flex-start;
+}
+
+#data_list_preview > ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
 #chart_preview {
   border: 1px solid black;
   border-radius: 5px;
   background-color: #ffffffc9;
   width: min-content;
+  height: min-content;
 }
 
 #edit_selectors {

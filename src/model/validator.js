@@ -30,8 +30,9 @@ export default class Validator {
     return false
   }
 
-  isTitleValid (title) {
-    if (title && typeof title === 'String' && title.length > 0 && title.length < 30) {
+  isTitleValid (titleInput) {
+    const title = titleInput.toString()
+    if (title && title.length > 0 && title.length < 30) {
       return true
     }
     return false

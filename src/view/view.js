@@ -60,7 +60,6 @@ export default class View {
     const editorOptions = document.querySelector('chart-selector')
 
     editorOptions.addEventListener('input_data', (event) => {
-      console.log(event.detail)
       this.#handleDataInEditor('input', event.detail)
     })
 
@@ -112,11 +111,44 @@ export default class View {
 
   updateChartPreviewInEditor (updatedCanvasElement) {
     const chartPreview = document.querySelector('#chart_preview')
+    chartPreview.innerHTML = ''
+
     chartPreview.prepend(updatedCanvasElement)
   }
 
-  #handleDataInEditor (eventType, data) {
+  updateDataListPreview (updatedDatapoints) {
+    const dataPointList = document.querySelector('#data_list_preview')
+    dataPointList.innerHTML = ''
 
+    const list = document.createElement('ul')
+
+    Object.entries(updatedDatapoints).forEach(([key, value]) => {
+      const listPoint = document.createElement('li')
+      const data = document.createElement('p')
+
+      data.innerHTML = `<b>name: </b> ${key}, <b>value: </b> ${value}`
+
+      listPoint.append(data)
+      list.append(listPoint)
+    })
+
+    dataPointList.append(list)
+  }
+
+  #handleDataInEditor (eventType, data) {
+    switch (eventType) {
+      case 'input':
+        this.#controller.processEditorDataInput(data.key, data.value)
+        break;
+      case 'update':
+
+        break;
+      case 'delete':
+
+        break;
+      default:
+        break;
+    }
   }
 
   showSavedChartsPage () {

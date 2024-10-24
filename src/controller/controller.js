@@ -13,15 +13,12 @@ export default class Controller {
   #model
   #view
   #validator
-  #activeData
   #activeChart
 
   constructor(model) {
     this.#model = model
     this.#view = new View(this)
     this.#validator = new Validator()
-
-    this.#activeData = { title: '', data: [] }
     this.#activeChart = null
   }
 
@@ -55,12 +52,32 @@ export default class Controller {
   processEditorColorChange (colorToChangeTo) {
     if (this.#validator.isColorValid(colorToChangeTo)) {
       this.#activeChart = this.#model.updateChartColor(colorToChangeTo)
-      this.#view.updateChartPreviewInEditor(this.#activeChart.getCanvasElement())
+
+      this.#updateEditorPreview()
     }
   }
 
   processEditorDataInput (key, value) {
-    this.#activeChart = this.#model
+    if (this.#validator.isTitleValid(key) && this.#validator.isDataValueValid(value)) {
+      this.#activeChart = this.#model.insertNewDataPoint(key, value)
+
+      this.#updateEditorPreview()
+    }
+  }
+
+  processEditorDataChange (key, newValue, oldValue) {
+    if (this.#validator.isTitleValid(key) && this.#validator.isDataValueValid(newValue)) {
+
+    }
+  }
+
+  processEditorDataDelete (key, value) {
+
+  }
+
+  #updateEditorPreview () {
+    this.#view.updateChartPreviewInEditor(this.#activeChart.getCanvasElement())
+    this.#view.updateDataListPreview(this.#activeChart.getDataPoints())
   }
 
   unsetActiveChart() {
