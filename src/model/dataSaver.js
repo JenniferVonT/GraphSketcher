@@ -9,8 +9,6 @@
 export default class DataSaver {
   #maxStorageValues = 5
 
-  constructor () {}
-
   saveChart (id, data) {
     if (localStorage.length < this.#maxStorageValues || this.#isChartAlreadySaved) {
       localStorage.setItem(id, data)
@@ -45,8 +43,7 @@ export default class DataSaver {
   }
 
   deleteChart (id) {
-    // TO-DO: Delete he chart from the localstorage.
-    console.log('In deleteChart, datasaver: ', id)
+    localStorage.removeItem(id)
   }
   
   createUniqueID () {

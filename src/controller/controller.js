@@ -188,6 +188,7 @@ export default class Controller {
     if (id) {
       this.#model.deleteChart(id)
     }
+    this.#view.showSavedChartsPage(this.#model.getAllSavedCharts())
   }
 
   processDownloadFromSavedPage (id) {
