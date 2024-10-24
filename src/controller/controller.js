@@ -136,8 +136,36 @@ export default class Controller {
     this.#model.clearActiveChart()
   }
 
-  #createURLfromCanvasElement (canvasChartElement) {
-    // TO-DO: Implement converting canvas element to a URL.
+  processDownloadActiveCanvas () {
+    const url = this.#createDownloadableURLFromActiveChart()
+    const type = this.#model.getActiveChartCanvas().getAttribute('class')
+
+    this.#view.startDownload(url, type)
+  }
+
+  #createDownloadableURLFromActiveChart () {
+    const blobObject = this.#createBlobObject()
+
+    return URL.createObjectURL(blobObject)
+  }
+  
+  #createBlobObject () {
+    const canvasChartElement = this.#model.getActiveChartCanvas()
+    const canvasURL = canvasChartElement.toDataURL('image/png')
+
+    return this.#convertBase64ToBlob(canvasURL, 'image/png')
+  }
+
+  #convertBase64ToBlob(base64, mimeType) {
+    const decodedBase64ToString = atob(base64.split(',')[1])
+    const arrayBuffer = new ArrayBuffer(decodedBase64ToString.length)
+    const uintArray = new Uint8Array(arrayBuffer)
+  
+    for (let i = 0; i < decodedBase64ToString.length; i++) {
+        uintArray[i] = decodedBase64ToString.charCodeAt(i)
+    }
+  
+    return new Blob([uintArray], { type: mimeType })
   }
 
   #deleteChart(canvasChartElement) {

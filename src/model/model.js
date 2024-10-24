@@ -130,4 +130,8 @@ export default class Model {
   getDataFromActiveChart () {
     return this.#activeChart.getDataPoints()
   }
+
+  getActiveChartCanvas () {
+    return this.#activeChart.getCanvasElement()
+  }
 }

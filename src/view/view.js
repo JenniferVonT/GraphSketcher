@@ -188,7 +188,7 @@ export default class View {
     buttonElement.addEventListener('click', (event) => {
       event.preventDefault()
 
-      // TO-DO: Implement downloading
+      this.#controller.processDownloadActiveCanvas()
     })
   }
 
@@ -257,5 +257,14 @@ export default class View {
     this.#savedGraphsPage.append(document.createElement('p').textContent = 'TESTING!!')
 
     // Insert the saved graphs/charts into the DOM.
+  }
+
+  startDownload (downloadURL, chartType) {
+    const downloadLink = document.querySelector('#download_link')
+
+    downloadLink.href = downloadURL
+    downloadLink.download = `${chartType}_graph_sketcher.png`
+
+    downloadLink.click()
   }
 }
