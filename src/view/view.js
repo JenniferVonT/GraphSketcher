@@ -52,7 +52,8 @@ export default class View {
   }
 
   #clearSavedPage () {
-    this.#savedGraphsPage.innerHTML = ''
+    const chartWrapper = this.#savedGraphsPage.querySelector('#saved_chart_wrapper')
+    chartWrapper.innerHTML = ''
   }
 
   #configureStartingSelectButtons () {
@@ -264,12 +265,44 @@ export default class View {
   }
 
   showSavedChartsPage (savedCharts) {
+    this.#clearSavedPage()
     this.#clearEditorPreview()
     this.#hideAndShowElementsForSavedPage()
 
     for (const chart of savedCharts) {
-      this.#savedGraphsPage.append(this.#buildSavedChartTemplate(chart))
+      const chartWrapper = this.#savedGraphsPage.querySelector('#saved_chart_wrapper')
+      chartWrapper.append(this.#buildSavedChartTemplate(chart))
     }
+
+    this.#configureActionButtonsOnSavedCharts()
+  }
+
+  #configureActionButtonsOnSavedCharts() {
+    const deleteButtons = document.querySelectorAll('.delete_chart')
+    const downloadButtons = document.querySelectorAll('.download_saved_chart')
+
+    this.#setEventListenersForSavedDeleteButtons(deleteButtons)
+    this.#setEventListenerForSavedDownloadButtons(downloadButtons)
+  }
+
+  #setEventListenersForSavedDeleteButtons (buttons) {
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const id = button.getAttribute('id')
+
+        this.#controller.processDeletionOfSavedChart(id)
+      })
+    })
+  }
+
+  #setEventListenerForSavedDownloadButtons (buttons) {
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const id = button.getAttribute('id')
+
+        this.#controller.processDownloadFromSavedPage(id)
+      })
+    })
   }
 
   #buildSavedChartTemplate(chart) {

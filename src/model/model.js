@@ -55,24 +55,27 @@ export default class Model {
     }
   }
 
+  getSavedChartById (id) {
+    const chartData = this.#dataSaver.getSavedChart(id)
+
+    const chart = this.#buildChart(chartData)
+    this.clearActiveChart()
+
+    const canvasElement = chart.getCanvasElement()
+
+    return { id: chartData.id, canvas: canvasElement }
+
+  }
+
   getAllSavedCharts () {
     const savedCharts = this.#dataSaver.getAllSavedCharts()
     const canvasElementsAndIds = []
 
     for (const chart of savedCharts) {
-      const type = chart.payload.type.slice(0, (chart.payload.type.length - 5))
-      
-      let newChart
+      const newChart = this.#buildChart(chart)
+      const canvasElement = newChart.getCanvasElement()
 
-      if (Object.keys(chart.payload.data).length > 0) {
-        newChart = this.createNewChart(type, chart.payload.data)
-      } else {
-        newChart = this.createNewChart(type)
-      }
-
-      this.#buildCanvasElement(chart.payload)
-
-      canvasElementsAndIds.push({ id: chart.id, canvas: this.getActiveChartCanvas()})
+      canvasElementsAndIds.push({ id: chart.id, canvas: canvasElement})
 
       this.clearActiveChart()
     }
@@ -80,10 +83,26 @@ export default class Model {
     return canvasElementsAndIds
   }
 
-  #buildCanvasElement (options) {
-    this.#activeChart.setColorTheme(options.color)
-    this.#activeChart.setHeightTo(options.height)
-    this.#activeChart.setWidthTo(options.width)
+  #buildChart (data) {
+    const type = data.payload.type.slice(0, (data.payload.type.length - 5))
+      
+    let newChart
+
+    if (Object.keys(data.payload.data).length > 0) {
+      newChart = this.createNewChart(type, data.payload.data)
+    } else {
+      newChart = this.createNewChart(type)
+    }
+
+    return this.#buildCanvasElement(this.#activeChart, data.payload)
+  }
+
+  #buildCanvasElement (chart, options) {
+    chart.setColorTheme(options.color)
+    chart.setHeightTo(options.height)
+    chart.setWidthTo(options.width)
+
+    return chart
   }
 
   saveActiveChart () {
@@ -149,8 +168,8 @@ export default class Model {
     return this.#activeChart
   }
 
-  deleteChart (chart) {
-    this.#dataSaver.deleteChart(chart)
+  deleteChart (id) {
+    this.#dataSaver.deleteChart(id)
   }
 
   getDataFromActiveChart () {

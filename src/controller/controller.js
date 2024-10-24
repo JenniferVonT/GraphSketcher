@@ -154,21 +154,20 @@ export default class Controller {
   }
 
   processDownloadActiveCanvas () {
-    const url = this.#createDownloadableURLFromActiveChart()
+    const url = this.#createDownloadableURLFromCanvasElement(this.#model.getActiveChartCanvas())
     const type = this.#model.getActiveChartCanvas().getAttribute('class')
 
     this.#view.startDownload(url, type)
   }
 
-  #createDownloadableURLFromActiveChart () {
-    const blobObject = this.#createBlobObject()
+  #createDownloadableURLFromCanvasElement (canvasElement) {
+    const blobObject = this.#createBlobObject(canvasElement)
 
     return URL.createObjectURL(blobObject)
   }
   
-  #createBlobObject () {
-    const canvasChartElement = this.#model.getActiveChartCanvas()
-    const canvasURL = canvasChartElement.toDataURL('image/png')
+  #createBlobObject (canvasElement) {
+    const canvasURL = canvasElement.toDataURL('image/png')
 
     return this.#convertBase64ToBlob(canvasURL, 'image/png')
   }
@@ -185,7 +184,18 @@ export default class Controller {
     return new Blob([uintArray], { type: mimeType })
   }
 
-  #deleteChart(canvasChartElement) {
-    // TO-DO: Implement functionality to delete a chart by calling the model.
+  processDeletionOfSavedChart (id) {
+    if (id) {
+      this.#model.deleteChart(id)
+    }
+  }
+
+  processDownloadFromSavedPage (id) {
+    const chartData = this.#model.getSavedChartById(id)
+
+    const url = this.#createDownloadableURLFromCanvasElement(chartData.canvas)
+    const type = chartData.canvas.getAttribute('class')
+
+    this.#view.startDownload(url, type)
   }
 }

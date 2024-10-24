@@ -20,8 +20,8 @@ export default class DataSaver {
   getSavedChart (id) {
     const savedChart = {}
 
-    savedChart['id'] = id
-    savedChart['data'] = localStorage.getItem(id)
+    savedChart.id = id
+    savedChart.payload = JSON.parse(localStorage.getItem(id))
 
     return savedChart
   }
@@ -46,6 +46,7 @@ export default class DataSaver {
 
   deleteChart (id) {
     // TO-DO: Delete he chart from the localstorage.
+    console.log('In deleteChart, datasaver: ', id)
   }
   
   createUniqueID () {

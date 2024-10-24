@@ -90,7 +90,7 @@ main {
   width: 100%;
 }
 
-#start_title {
+#start_title, .title {
   width: 100%;
   height: 4rem;
   display: flex;
