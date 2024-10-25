@@ -51,14 +51,20 @@ export default class View {
     this.#hideAndShowElementsForStartPage()
   }
 
+  #configureStartingSelectButtons () {
+    const iconElementsAndTypes = this.#bindStartSelectIcons()
+    this.#setEventListenersForStartIcons(iconElementsAndTypes)
+  }
+
   #clearSavedPage () {
     const chartWrapper = this.#savedGraphsPage.querySelector('#saved_chart_wrapper')
     chartWrapper.innerHTML = ''
   }
 
-  #configureStartingSelectButtons () {
-    const iconElements = this.#bindStartSelectIcons()
-    this.#setEventListenersForStartIcons(iconElements)
+  #hideAndShowElementsForStartPage () {
+    this.#savedGraphsPage.classList.add('hidden')
+    this.#startPage.classList.remove('hidden')
+    document.querySelector('#edit_chart_wrapper').classList.add('hidden')
   }
 
   #bindStartSelectIcons () {
@@ -66,17 +72,17 @@ export default class View {
     const columnSelectButton = document.querySelector('#column_chart_select_icon')
     const lineSelectButton = document.querySelector('#line_chart_select_icon')
 
-    const iconElements = [
+    const iconElementsAndTypes = [
       { element: pieSelectButton, type: 'createPieChart' },
       { element: columnSelectButton, type: 'createColumnChart' },
       { element: lineSelectButton, type: 'createLineChart' }
     ]
 
-    return iconElements
+    return iconElementsAndTypes
   }
 
-  #setEventListenersForStartIcons (iconElements) {
-    for (const icon of iconElements) {
+  #setEventListenersForStartIcons (iconElementsAndTypes) {
+    for (const icon of iconElementsAndTypes) {
       const element = icon.element
       const type = icon.type
 
@@ -116,12 +122,6 @@ export default class View {
     if (dataListPreview) {
       dataListPreview.innerHTML = ''
     }
-  }
-
-  #hideAndShowElementsForStartPage () {
-    this.#savedGraphsPage.classList.add('hidden')
-    this.#startPage.classList.remove('hidden')
-    document.querySelector('#edit_chart_wrapper').classList.add('hidden')
   }
 
   showEditorView (canvasElementToShow) {

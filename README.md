@@ -1,9 +1,9 @@
 # 1DV610_WebApp_L3
-A web-application where a user can create graphs/charts and either save them locally on the browser/in the application or download them as PNG files.
+This application can be found deployed at this adress: https://graphsketcher.netlify.app/
 
-The application works as s SPA (Single Page Application) so the url never updates, everything is handled through javascript and DOM manipulation.
+A web-application where a user can create graphs/charts and either save them locally on the browser/in the application or download them as PNG files. The application works as s SPA (Single Page Application) so the url never updates, everything is handled through javascript and DOM manipulation. It is object oriented to the degree that JavaScript permits, the only static functions are the ones in the `index.js` file to start the application and open the start view.
 
-It is object oriented to the degree that JavaScript permits, the only static functions are the ones inte `index.js` file to start the application and open the start view.
+All the documentation for this project is located in the [./documentation](./documentation/) directory, there you can find my projectvision, reflection, requirement specification and testreport.
 
 
 ## Applications entry point.
