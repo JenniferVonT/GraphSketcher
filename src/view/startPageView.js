@@ -22,7 +22,12 @@ export default class StartPage {
 
     this.#startPage.classList.remove('hidden')
 
-    this.clearEditorPreview()
+    this.#hideEditor()
+    this.#clearEditorPreview()
+  }
+
+  #hideEditor() {
+    this.#editor.classList.add('hidden')
   }
 
   #configureStartingSelectButtons () {
@@ -55,20 +60,16 @@ export default class StartPage {
     }
   }
 
-  clear () {
+  hidePage () {
     this.#startPage.classList.add('hidden')
-    this.clearEditorPreview()
+    this.#clearEditorPreview()
     this.hideEditor()
   }
 
-  hideEditor() {
-    this.#editor.classList.add('hidden')
-  }
-
-  clearEditorPreview () {
+  #clearEditorPreview () {
     this.#clearEditorInputs()
     this.#clearChartPreview()
-    this.clearDataListPreview()
+    this.#clearDataListPreview()
   }
 
   #clearEditorInputs () {
@@ -89,7 +90,7 @@ export default class StartPage {
     }
   }
 
-  clearDataListPreview () {
+  #clearDataListPreview () {
     const dataListPreview = document.querySelector('#data_list_preview')
 
     if (dataListPreview) {
@@ -114,7 +115,7 @@ export default class StartPage {
   }
 
   updateDataListPreviewInEditor (updatedDatapoints) {
-    this.clearDataListPreview()
+    this.#clearDataListPreview()
 
     const dataPointList = document.querySelector('#data_list_preview')
     dataPointList.append(this.#createDataList(updatedDatapoints))
@@ -160,7 +161,7 @@ export default class StartPage {
     const canvasType = document.querySelector('canvas').getAttribute('class')
     const updateTypeName = `create${canvasType.charAt(0).toUpperCase() + canvasType.slice(1)}`
 
-    this.clearEditorPreview()
+    this.#clearEditorPreview()
     this.#controller.processChartSelectionInput(updateTypeName)
   }
 

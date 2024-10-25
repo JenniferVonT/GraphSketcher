@@ -68,8 +68,8 @@ export default class View {
   }
 
   showSavedChartsPage (savedCharts) {
-    this.#startPage.clear()
-    this.#savedPage.showSavedChartsPage(savedCharts)
+    this.#startPage.hidePage()
+    this.#savedPage.showPage(savedCharts)
   }
 
   startDownload (downloadURL, chartType) {

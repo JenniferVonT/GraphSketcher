@@ -25,7 +25,7 @@ export default class SavedPage {
     chartWrapper.innerHTML = ''
   }
 
-  showSavedChartsPage (savedCharts) {
+  showPage (savedCharts) {
     this.clearSavedList()
 
     for (const chart of savedCharts) {
