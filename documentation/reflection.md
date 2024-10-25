@@ -88,13 +88,35 @@ First I throw an error object created in my error handling class...
 
 **L3** - In this I had a little bit of a different approach to the error handling than L2, I do not have an ErrorHandling class like L2 because this project was directed to users on the web. I have minimized the user inputs that arent completely controlled by me (i.e buttons) to the bare minimum and still being able to customize the charts. Because of this I decided to use special cases instead in most places where nothing is returned if it is unsuccessful. I did however introduce try/catch statements where I handle third party libs, even if it is my own L2.
 
+First I catch the error and throw a new error since I'm using localStorage which is a built in lib but also a third party to me.
+
+![error handling](../src/img/L3_error_handling.PNG)
+
+(./src/model/dataSaver.js)
+
+Then I catch it when calling the method in case there is any issues I don't know about in the localStorage.
+
+![error handling](../src/img/L3_error_handling2.PNG)
+
+(./src/model/model.js)
+
 ## Chapter 8
-**L2** -
-**L3** -
+**L2** - Since this project does not include any third party dependencies except the built in canvas lib I didn't have to think about the changing and boundaries of the lib to the degree that the chapter shows, there is a lot of documentation around the lib and the rest is my own written code.
+
+**L3** - I have tried to keep the dependencies very low in this project aswell, the only third party package I use that isn't a built into node/browser package is my own L2 module. This made it easy for me to not having to worry about any changes in dependencies since *I* controll said dependency. I also isolated the built in libs to only be used in my dataSaver class making it easy to change if there ever was a need to in the future.
 
 ## Chapter 9
-**L2** -
-**L3** -
+**L2** - In this project I did a lot of automatic testing, my only fault was that I did not always follow the Three laws of TDD, sometimes I actually wrote the production code before the test code. I had a hard time knowing exactly what to test before I had even tried to write the production code. I did however stick to one test at a time, running it and debugging until it passed without moving on to writing the next test. I also tried to keep the tests to single concerns. This test however tests both height and width, mostly because they both take the same kind of input and is tested in the same way so I didn't want to write an almost doublicate test just for height and width.
+
+![test](../src/img/L2_test.PNG)
+(./test/chart.test.js)
+
+**L3** - In this project I couldn't really follow the book since I don't have any automatic testing. It was better fit with manual testing and I tested manually all the time during development, running the application on a local server with realtime updates. I do however keep all the "official" tests concise and easy to follow, keeping them all written down in my testreport. This makes testing very fast, independent, repeatable, self-validating and timely since they are very accessible during development.
+
+The tests have descriptive names telling the user instantly what they are testing. They also describe in their separate documentation what they expects aswell.
+
+![test](../src/img/L3_test.PNG)
+(./documentation/testreport.md)
 
 ## Chapter 10
 **L2** -
