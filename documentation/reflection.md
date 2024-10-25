@@ -49,17 +49,20 @@ I have a really hard time with naming when I'm faced with methods that does simi
 **L2** - I have stuck to the same code format throughout the project, I didn't use any automated tool for this though which means there is a risk that the format I've choosen can have places where they differ, but I have not yet found anywhere noticeable in my code that strays from the set standard. All my global variables in the classes are all declared unaligned at the top of each class and without comment so they aren't to spaced out for an easier overview of the start of the class.
 
 ![global variable example](../src/img/L2_global_variable_ex.PNG)
+
 (./src/data.js)
 
 **L3** - What I said for L2 can be applied for L3 aswell, but in this project I have implemented an automatic formatting tool (the npm `standard` package) to help with formatting, this has made it easier to really make sure that the entire code base follows the exact same formatting style everywhere.
 A hard thing for me is deciding where to place methods based on conceptual affinity and a logical vertical ordering, if there is just a few methods this isn't an issue, but when several methods starts to use one method I have a hard time figuring out where to put the one method being used by many. For example in this snippet I have an abstract method at the start to show the start page, all the methods fall below in the order they are called, except the `clearEditorPreview` method, that one is also abstract and have several method calls and is used by many methods, I also have the methods called in the `#configureStartingSelectButtons` below these shown. This creates the "scrolling" in the document we want to avoid, but I don't know any better way to sort them besides this.
 
 ![vertical ordering](../src/img/L3_vertical_ordering.PNG)
+(./src/view/view.js)
 
 ## Chapter 6
 **L2** - I have kept the modules very separate in this project, they all only talk to "friends" not "strangers" and hence follows the law of Demeter which means they only calls methods from within themselves or objects that the methods have created, gotten as an argument or the class holds as an instance within itself. I've tried to hide as much data structures as possible and instead leaned on methods for all the data handling, for instance in this example I only use getters and setters for data handling, and only call methods on an object the class hold as an instance (errorHandler):
 
 ![Structure example](../src/img/L2_hiding_structure.PNG)
+
 (./src/data.js)
 
 **L3** - This project was a bit harder to keep separate since I'm handling editing with a preview that updates in real time, also saving, downloading and deleting feature so I had to sent objects as arguments and return values on a much higher scale than I needed in L2. I still tried to hide the internal structure within the class, only using methods to manipulate and reach data and keeping most methods not needed by "outsiders" private. I did have some "trainwrecks" though, where I called a method on a return object that the class didn't really have access to according to Demeters law, I changed it to follow the law and only access the data through instantiated classes within the class.
@@ -74,8 +77,16 @@ After: (this.#model and this.#view are both instantiated in the class as global 
 (./src/controller/controller.js)
 
 ## Chapter 7
-**L2** -
-**L3** -
+**L2** - I have a lot of error handling in the module, since it's going to act as a third party module for other devs I decided to have a try/catch block and throw errors in the majority of methods and did create an entire class for handling the error messaging because of this. I do not return null anywhere to avoid foistering the problem to the caller of the method and I think I managed it pretty well and definitely do not do that to methods that return to the dev using the module.
+
+First I throw an error object created in my error handling class...
+![error handling](../src/img/L2_error_handling_ex_2.PNG)
+
+... Then I catch the error in the method that calls the one above.
+![error handling](../src/img/L2_error_handling_ex.PNG)
+
+
+**L3** - In this I had a little bit of a different approach to the error handling than L2, I do not have an ErrorHandling class like L2 because this project was directed to users on the web. I have minimized the user inputs that arent completely controlled by me (i.e buttons) to the bare minimum and still being able to customize the charts. Because of this I decided to use special cases instead in most places where nothing is returned if it is unsuccessful. I did however introduce try/catch statements where I handle third party libs, even if it is my own L2.
 
 ## Chapter 8
 **L2** -

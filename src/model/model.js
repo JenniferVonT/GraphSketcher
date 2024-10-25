@@ -60,50 +60,66 @@ export default class Model {
   }
 
   getSavedChartById (id) {
-    const chartData = this.#dataSaver.getSavedChart(id)
+    try {
+      const chartData = this.#dataSaver.getSavedChart(id)
 
-    const chart = this.#buildChart(chartData)
-    this.clearActiveChart()
+      const chart = this.#buildChart(chartData)
+      this.clearActiveChart()
 
-    const canvasElement = chart.getCanvasElement()
+      const canvasElement = chart.getCanvasElement()
 
-    return { id: chartData.id, canvas: canvasElement }
+      return { id: chartData.id, canvas: canvasElement }
+    } catch (error) {
+      console.error(error.message)
+    }
   }
 
   getAllSavedCharts () {
-    const savedCharts = this.#dataSaver.getAllSavedCharts()
-    const canvasElementsAndIds = []
+    try {
+      const savedCharts = this.#dataSaver.getAllSavedCharts()
+      const canvasElementsAndIds = []
 
-    for (const chart of savedCharts) {
-      const newChart = this.#buildChart(chart)
-      const canvasElement = newChart.getCanvasElement()
+      for (const chart of savedCharts) {
+        const newChart = this.#buildChart(chart)
+        const canvasElement = newChart.getCanvasElement()
 
-      canvasElementsAndIds.push({ id: chart.id, canvas: canvasElement })
+        canvasElementsAndIds.push({ id: chart.id, canvas: canvasElement })
 
-      this.clearActiveChart()
+        this.clearActiveChart()
+      }
+
+      return canvasElementsAndIds
+    } catch (error) {
+      console.error(error.message)
     }
-
-    return canvasElementsAndIds
   }
 
   #buildChart (data) {
-    const type = data.payload.type.slice(0, (data.payload.type.length - 5))
+    try {
+      const type = data.payload.type.slice(0, (data.payload.type.length - 5))
 
-    if (Object.keys(data.payload.data).length > 0) {
-      this.createNewChart(type, data.payload.data)
-    } else {
-      this.createNewChart(type)
+      if (Object.keys(data.payload.data).length > 0) {
+        this.createNewChart(type, data.payload.data)
+      } else {
+        this.createNewChart(type)
+      }
+
+      return this.#buildCanvasElement(this.#activeChart, data.payload)
+    } catch (error) {
+      console.error(error.message)
     }
-
-    return this.#buildCanvasElement(this.#activeChart, data.payload)
   }
 
   #buildCanvasElement (chart, options) {
-    chart.setColorTheme(options.color)
-    chart.setHeightTo(options.height)
-    chart.setWidthTo(options.width)
+    try {
+      chart.setColorTheme(options.color)
+      chart.setHeightTo(options.height)
+      chart.setWidthTo(options.width)
 
-    return chart
+      return chart
+    } catch (error) {
+      console.error(error.message)
+    }
   }
 
   saveActiveChart () {
@@ -198,7 +214,11 @@ export default class Model {
   }
 
   deleteChart (id) {
-    this.#dataSaver.deleteChart(id)
+    try {
+      this.#dataSaver.deleteChart(id)
+    } catch (error) {
+      console.error(error.message)
+    }
   }
 
   getDataFromActiveChart () {

@@ -17,7 +17,7 @@ export default class DataSaver {
         localStorage.setItem(id, stringifiedData)
       }
     } catch (error) {
-      console.error(error.message)
+      throw new Error('localStorage error')
     }
   }
 
@@ -30,7 +30,7 @@ export default class DataSaver {
 
       return savedChart
     } catch (error) {
-      console.error(error.message)
+      throw new Error('localStorage error')
     }
   }
 
@@ -52,7 +52,7 @@ export default class DataSaver {
 
       return savedItems
     } catch (error) {
-      console.error(error.message)
+      throw new Error('localStorage error')
     }
   }
 
@@ -77,7 +77,7 @@ export default class DataSaver {
 
       return id
     } catch (error) {
-      console.error(error.message)
+      throw new Error('localStorage error')
     }
   }
 
@@ -92,7 +92,7 @@ export default class DataSaver {
 
       return id
     } catch (error) {
-      console.error(error.message)
+      throw new Error('localStorage error')
     }
   }
 
@@ -105,7 +105,7 @@ export default class DataSaver {
       }
       return false
     } catch (error) {
-      console.error(error.message)
+      throw new Error('localStorage error')
     }
   }
 }
