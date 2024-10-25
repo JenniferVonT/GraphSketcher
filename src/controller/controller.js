@@ -44,13 +44,19 @@ export default class Controller {
 
     switch (input) {
       case 'createPieChart':
-        this.#view.showEditorView(this.#createChart('pie').getCanvasElement())
+        this.#createChart('pie')
+
+        this.#view.showEditorView(this.#model.getActiveChartCanvas())
         break
       case 'createColumnChart':
-        this.#view.showEditorView(this.#createChart('column').getCanvasElement())
+        this.#createChart('column')
+
+        this.#view.showEditorView(this.#model.getActiveChartCanvas())
         break
       case 'createLineChart':
-        this.#view.showEditorView(this.#createChart('line').getCanvasElement())
+        this.#createChart('line')
+
+        this.#view.showEditorView(this.#model.getActiveChartCanvas())
         break
       default:
         break
@@ -63,18 +69,22 @@ export default class Controller {
 
   processEditorColorChange (colorToChangeTo) {
     if (this.#validator.isColorValid(colorToChangeTo)) {
-      const chart = this.#model.updateChartColor(colorToChangeTo)
+      this.#model.updateChartColor(colorToChangeTo)
 
-      this.#updateEditorPreview(chart.getCanvasElement())
+      const canvas = this.#model.getActiveChartCanvas()
+
+      this.#updateEditorPreview(canvas)
     }
   }
 
   processEditorDataInput (key, value) {
     if (this.#validator.isTitleValid(key) && this.#validator.isDataValueValid(value)) {
-      const chart = this.#model.insertNewDataPoint(key, value)
+      this.#model.insertNewDataPoint(key, value)
+
+      const canvas = this.#model.getActiveChartCanvas()
       const dataPoints = this.#model.getDataFromActiveChart()
 
-      this.#updateEditorPreview(chart.getCanvasElement(), dataPoints)
+      this.#updateEditorPreview(canvas, dataPoints)
     }
   }
 
@@ -125,13 +135,15 @@ export default class Controller {
 
     switch (sizeType) {
       case 'width': {
-        const updateChartWidth = this.#model.updateChartWidth(valueInt)
-        this.#updateEditorPreview(updateChartWidth.getCanvasElement())
+        this.#model.updateChartWidth(valueInt)
+  
+        this.#updateEditorPreview(this.#model.getActiveChartCanvas())
         break
       }
       case 'height': {
-        const updatedChartHeight = this.#model.updateChartHeight(valueInt)
-        this.#updateEditorPreview(updatedChartHeight.getCanvasElement())
+        this.#model.updateChartHeight(valueInt)
+
+        this.#updateEditorPreview(this.#model.getActiveChartCanvas())
         break
       }
       default:
@@ -149,7 +161,9 @@ export default class Controller {
 
   processDownloadActiveCanvas () {
     const url = this.#createDownloadableURLFromCanvasElement(this.#model.getActiveChartCanvas())
-    const type = this.#model.getActiveChartCanvas().getAttribute('class')
+  
+    const chart = this.#model.getActiveChartCanvas()
+    const type = chart.getAttribute('class')
 
     this.#view.startDownload(url, type)
   }

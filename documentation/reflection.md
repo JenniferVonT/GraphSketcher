@@ -52,7 +52,9 @@ I have a really hard time with naming when I'm faced with methods that does simi
 (./src/data.js)
 
 **L3** - What I said for L2 can be applied for L3 aswell, but in this project I have implemented an automatic formatting tool (the npm `standard` package) to help with formatting, this has made it easier to really make sure that the entire code base follows the exact same formatting style everywhere.
-A hard thing for me is deciding where to place methods based on conceptual affinity and a logical vertical ordering, if there is just a few methods this isn't an issue, but when several methods starts to use one method I have a hard time figuring out where to put the one method being used by many
+A hard thing for me is deciding where to place methods based on conceptual affinity and a logical vertical ordering, if there is just a few methods this isn't an issue, but when several methods starts to use one method I have a hard time figuring out where to put the one method being used by many. For example in this snippet I have an abstract method at the start to show the start page, all the methods fall below in the order they are called, except the `clearEditorPreview` method, that one is also abstract and have several method calls and is used by many methods, I also have the methods called in the `#configureStartingSelectButtons` below these shown. This creates the "scrolling" in the document we want to avoid, but I don't know any better way to sort them besides this.
+
+![vertical ordering](../src/img/L3_vertical_ordering.PNG)
 
 ## Chapter 6
 **L2** -
