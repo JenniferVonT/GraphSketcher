@@ -14,7 +14,7 @@ export default class Controller {
   #view
   #validator
 
-  constructor(model) {
+  constructor (model) {
     this.#model = model
     this.#view = new View(this)
     this.#validator = new Validator()
@@ -29,31 +29,31 @@ export default class Controller {
       case 'start':
         this.#model.clearActiveChart()
         this.#view.showStartPage()
-        break;
+        break
       case 'saved':
         this.#model.clearActiveChart()
         this.#view.showSavedChartsPage(this.#model.getAllSavedCharts())
-        break;
+        break
       default:
-        break;
+        break
     }
   }
 
   processChartSelectionInput (input) {
-      this.#model.clearActiveChart()
+    this.#model.clearActiveChart()
 
     switch (input) {
       case 'createPieChart':
         this.#view.showEditorView(this.#createChart('pie').getCanvasElement())
-        break;
+        break
       case 'createColumnChart':
         this.#view.showEditorView(this.#createChart('column').getCanvasElement())
-        break;
+        break
       case 'createLineChart':
         this.#view.showEditorView(this.#createChart('line').getCanvasElement())
-        break;
+        break
       default:
-        break;
+        break
     }
   }
 
@@ -124,16 +124,18 @@ export default class Controller {
     }
 
     switch (sizeType) {
-      case 'width':
+      case 'width': {
         const updateChartWidth = this.#model.updateChartWidth(valueInt)
         this.#updateEditorPreview(updateChartWidth.getCanvasElement())
-        break;
-      case 'height':
+        break
+      }
+      case 'height': {
         const updatedChartHeight = this.#model.updateChartHeight(valueInt)
         this.#updateEditorPreview(updatedChartHeight.getCanvasElement())
-        break;
+        break
+      }
       default:
-        break;
+        break
     }
   }
 
@@ -168,7 +170,7 @@ export default class Controller {
     this.#view.startDownload(url, type)
   }
 
-  saveActiveChart() {
+  saveActiveChart () {
     this.#model.saveActiveChart()
   }
 
@@ -181,22 +183,22 @@ export default class Controller {
 
     return URL.createObjectURL(blobObject)
   }
-  
+
   #createBlobObject (canvasElement) {
     const canvasURL = canvasElement.toDataURL('image/png')
 
     return this.#convertBase64ToBlob(canvasURL, 'image/png')
   }
 
-  #convertBase64ToBlob(base64, mimeType) {
+  #convertBase64ToBlob (base64, mimeType) {
     const decodedBase64ToString = atob(base64.split(',')[1])
     const arrayBuffer = new ArrayBuffer(decodedBase64ToString.length)
     const uintArray = new Uint8Array(arrayBuffer)
-  
+
     for (let i = 0; i < decodedBase64ToString.length; i++) {
-        uintArray[i] = decodedBase64ToString.charCodeAt(i)
+      uintArray[i] = decodedBase64ToString.charCodeAt(i)
     }
-  
+
     return new Blob([uintArray], { type: mimeType })
   }
 }

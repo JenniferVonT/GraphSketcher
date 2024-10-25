@@ -31,7 +31,7 @@ export default class View {
   #setEventListenerForNavigationStart () {
     this.#navStartBtn.addEventListener('click', (event) => {
       event.preventDefault()
-  
+
       this.#controller.processNavigationInput('start')
     })
   }
@@ -74,7 +74,7 @@ export default class View {
 
     return iconElements
   }
-  
+
   #setEventListenersForStartIcons (iconElements) {
     for (const icon of iconElements) {
       const element = icon.element
@@ -104,7 +104,7 @@ export default class View {
   #clearChartPreview () {
     const chartPreview = document.querySelector('#chart_preview')
     const activeChart = chartPreview.firstElementChild
-    
+
     if (activeChart) {
       chartPreview.removeChild(activeChart)
     }
@@ -277,7 +277,7 @@ export default class View {
     this.#configureActionButtonsOnSavedCharts()
   }
 
-  #configureActionButtonsOnSavedCharts() {
+  #configureActionButtonsOnSavedCharts () {
     const deleteButtons = document.querySelectorAll('.delete_chart')
     const downloadButtons = document.querySelectorAll('.download_saved_chart')
 
@@ -305,7 +305,7 @@ export default class View {
     })
   }
 
-  #buildSavedChartTemplate(chart) {
+  #buildSavedChartTemplate (chart) {
     const template = document.querySelector('#saved_page_template')
     const savedChartBox = document.importNode(template.content, true)
 
@@ -316,7 +316,7 @@ export default class View {
     return savedChartBox
   }
 
-  #hideAndShowElementsForSavedPage() {
+  #hideAndShowElementsForSavedPage () {
     this.#startPage.classList.add('hidden')
     this.#savedGraphsPage.classList.remove('hidden')
     document.querySelector('#edit_chart_wrapper').classList.add('hidden')

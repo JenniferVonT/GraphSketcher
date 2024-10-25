@@ -12,7 +12,7 @@ import Model from './model/model.js'
  * Instantiates a model and controller and call the method to start the application.
  */
 function startApplication () {
-  const model = new Model
+  const model = new Model()
   const controller = new Controller(model)
 
   controller.startApplication()

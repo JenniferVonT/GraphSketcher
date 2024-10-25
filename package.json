@@ -3,17 +3,21 @@
   "version": "1.0.0",
   "description": "A web-application that creates graphs/charts of inserted data and makes them downloadable.",
   "main": "src/index.html",
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "test": "npx --node-options=--experimental-vm-modules jest || exit 0"
+    "test": "npx --node-options=--experimental-vm-modules jest || exit 0",
+    "lint": "standard",
+    "lint:fix": "standard --fix"
+  },
+  "standard": {
+    "env": ["browser"]
   },
   "author": "Jennifer von Trotta-Treyden <jv222th>",
   "license": "MIT",
   "devDependencies": {
-    "jest": "^29.7.0",
-    "jest-chain": "^1.1.6",
-    "jest-environment-jsdom": "^29.7.0",
+    "standard": "^17.1.2",
     "vite": "^5.4.9"
   },
   "dependencies": {

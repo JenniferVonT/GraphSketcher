@@ -231,7 +231,7 @@ template.innerHTML = `
 </div>
 `
 
-customElements.define('chart-selector', 
+customElements.define('chart-selector',
   class extends HTMLElement {
     #WidthSelector
     #HeightSelector
@@ -240,21 +240,21 @@ customElements.define('chart-selector',
     #updateData
     #deleteData
     #enterPressed
-  
+
     constructor () {
       super()
 
       this.attachShadow({ mode: 'open' })
         .appendChild(template.content.cloneNode(true))
 
-        this.#colorSelectors = this.shadowRoot.querySelectorAll('.color')
-        this.#WidthSelector = this.shadowRoot.querySelector('#Width')
-        this.#HeightSelector = this.shadowRoot.querySelector('#Height')
-        this.#inputData = this.shadowRoot.querySelector('#input_data_form')
-        this.#updateData = this.shadowRoot.querySelector('#update_data_form')
-        this.#deleteData = this.shadowRoot.querySelector('#delete_data_form')
+      this.#colorSelectors = this.shadowRoot.querySelectorAll('.color')
+      this.#WidthSelector = this.shadowRoot.querySelector('#Width')
+      this.#HeightSelector = this.shadowRoot.querySelector('#Height')
+      this.#inputData = this.shadowRoot.querySelector('#input_data_form')
+      this.#updateData = this.shadowRoot.querySelector('#update_data_form')
+      this.#deleteData = this.shadowRoot.querySelector('#delete_data_form')
 
-        this.#setEnterPressedTo(false)
+      this.#setEnterPressedTo(false)
     }
 
     connectedCallback () {
@@ -282,7 +282,7 @@ customElements.define('chart-selector',
           if (event.key === 'Enter') {
             this.#setEnterPressedTo(true) // Has to come before blurring target as to not handle the blur event right after.
             event.target.blur()
-  
+
             this.#emitCustomEvent(eventName, event.target.value)
           }
           this.#setEnterPressedTo(false)
@@ -297,7 +297,7 @@ customElements.define('chart-selector',
     }
 
     #setEventListenersOnDataInputs () {
-      const dataElements = [ this.#inputData, this.#updateData, this.#deleteData ]
+      const dataElements = [this.#inputData, this.#updateData, this.#deleteData]
 
       dataElements.forEach((element) => {
         element.addEventListener('submit', (event) => {
@@ -324,7 +324,7 @@ customElements.define('chart-selector',
       if (keyName) {
         this.dispatchEvent(new CustomEvent(event, {
           bubbles: true,
-          detail: { key: keyName, value: parseInt(value)}
+          detail: { key: keyName, value: parseInt(value) }
         }))
       } else {
         this.dispatchEvent(new CustomEvent(event, {

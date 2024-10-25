@@ -17,7 +17,7 @@ export default class Model {
   #activeId
   #activeColor
 
-  constructor() {
+  constructor () {
     this.#dataSaver = new DataSaver()
     this.#dataVisualizer = new DataVisualizer()
 
@@ -27,23 +27,23 @@ export default class Model {
   }
 
   /**
-   * 
+   *
    * @param {String} chartType - 'Column', 'line' or 'pie'.
    * @param {Object} dataPoints - Optional, is inserted at the start if present.
    */
-  createNewChart(chartType, dataPoints) {
+  createNewChart (chartType, dataPoints) {
     const type = chartType.toLowerCase()
 
     switch (type) {
       case 'column':
         this.#activeChart = this.#dataVisualizer.createColumnChart(dataPoints)
         this.#activeColor = 'blue'
-  
+
         return this.#activeChart
       case 'pie':
         this.#activeChart = this.#dataVisualizer.createPieChart(dataPoints)
         this.#activeColor = 'blue'
-    
+
         return this.#activeChart
       case 'line':
         this.#activeChart = this.#dataVisualizer.createLineChart(dataPoints)
@@ -64,7 +64,6 @@ export default class Model {
     const canvasElement = chart.getCanvasElement()
 
     return { id: chartData.id, canvas: canvasElement }
-
   }
 
   getAllSavedCharts () {
@@ -75,7 +74,7 @@ export default class Model {
       const newChart = this.#buildChart(chart)
       const canvasElement = newChart.getCanvasElement()
 
-      canvasElementsAndIds.push({ id: chart.id, canvas: canvasElement})
+      canvasElementsAndIds.push({ id: chart.id, canvas: canvasElement })
 
       this.clearActiveChart()
     }
@@ -85,13 +84,11 @@ export default class Model {
 
   #buildChart (data) {
     const type = data.payload.type.slice(0, (data.payload.type.length - 5))
-      
-    let newChart
 
     if (Object.keys(data.payload.data).length > 0) {
-      newChart = this.createNewChart(type, data.payload.data)
+      this.createNewChart(type, data.payload.data)
     } else {
-      newChart = this.createNewChart(type)
+      this.createNewChart(type)
     }
 
     return this.#buildCanvasElement(this.#activeChart, data.payload)
@@ -117,7 +114,7 @@ export default class Model {
         height: this.#activeChart.getCanvasElement().height,
         width: this.#activeChart.getCanvasElement().width,
         color: this.#activeColor,
-        data: this.#activeChart.getDataPoints(),
+        data: this.#activeChart.getDataPoints()
       }
       this.#dataSaver.saveChart(this.#activeId, chartData)
     }

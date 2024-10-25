@@ -11,7 +11,7 @@ export default class DataSaver {
 
   saveChart (id, data) {
     const stringifiedData = JSON.stringify(data)
-  
+
     if (localStorage.length < this.#maxStorageValues || this.#isChartAlreadySaved) {
       localStorage.setItem(id, stringifiedData)
     }
@@ -47,18 +47,18 @@ export default class DataSaver {
   deleteChart (id) {
     localStorage.removeItem(id)
   }
-  
+
   createUniqueID () {
     let id
     do {
       const generatedId = this.#generateID()
 
-      if (generatedId !== NaN && !this.#isChartAlreadySaved(generatedId)) {
+      if (isNaN(generatedId) && !this.#isChartAlreadySaved(generatedId)) {
         id = generatedId
       }
     } while (!id)
 
-      return id
+    return id
   }
 
   #generateID () {
