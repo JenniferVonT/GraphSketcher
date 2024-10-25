@@ -145,19 +145,35 @@ export default class Controller {
     }
   }
 
+  processDownloadActiveCanvas () {
+    const url = this.#createDownloadableURLFromCanvasElement(this.#model.getActiveChartCanvas())
+    const type = this.#model.getActiveChartCanvas().getAttribute('class')
+
+    this.#view.startDownload(url, type)
+  }
+
+  processDeletionOfSavedChart (id) {
+    if (id) {
+      this.#model.deleteChart(id)
+    }
+    this.#view.showSavedChartsPage(this.#model.getAllSavedCharts())
+  }
+
+  processDownloadFromSavedPage (id) {
+    const chartData = this.#model.getSavedChartById(id)
+
+    const url = this.#createDownloadableURLFromCanvasElement(chartData.canvas)
+    const type = chartData.canvas.getAttribute('class')
+
+    this.#view.startDownload(url, type)
+  }
+
   saveActiveChart() {
     this.#model.saveActiveChart()
   }
 
   clearActiveChart () {
     this.#model.clearActiveChart()
-  }
-
-  processDownloadActiveCanvas () {
-    const url = this.#createDownloadableURLFromCanvasElement(this.#model.getActiveChartCanvas())
-    const type = this.#model.getActiveChartCanvas().getAttribute('class')
-
-    this.#view.startDownload(url, type)
   }
 
   #createDownloadableURLFromCanvasElement (canvasElement) {
@@ -182,21 +198,5 @@ export default class Controller {
     }
   
     return new Blob([uintArray], { type: mimeType })
-  }
-
-  processDeletionOfSavedChart (id) {
-    if (id) {
-      this.#model.deleteChart(id)
-    }
-    this.#view.showSavedChartsPage(this.#model.getAllSavedCharts())
-  }
-
-  processDownloadFromSavedPage (id) {
-    const chartData = this.#model.getSavedChartById(id)
-
-    const url = this.#createDownloadableURLFromCanvasElement(chartData.canvas)
-    const type = chartData.canvas.getAttribute('class')
-
-    this.#view.startDownload(url, type)
   }
 }
