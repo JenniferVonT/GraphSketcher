@@ -32,26 +32,30 @@ export default class Model {
    * @param {Object} dataPoints - Optional, is inserted at the start if present.
    */
   createNewChart (chartType, dataPoints) {
-    const type = chartType.toLowerCase()
+    try {
+      const type = chartType.toLowerCase()
 
-    switch (type) {
-      case 'column':
-        this.#activeChart = this.#dataVisualizer.createColumnChart(dataPoints)
-        this.#activeColor = 'blue'
+      switch (type) {
+        case 'column':
+          this.#activeChart = this.#dataVisualizer.createColumnChart(dataPoints)
+          this.#activeColor = 'blue'
 
-        return this.#activeChart
-      case 'pie':
-        this.#activeChart = this.#dataVisualizer.createPieChart(dataPoints)
-        this.#activeColor = 'blue'
+          return this.#activeChart
+        case 'pie':
+          this.#activeChart = this.#dataVisualizer.createPieChart(dataPoints)
+          this.#activeColor = 'blue'
 
-        return this.#activeChart
-      case 'line':
-        this.#activeChart = this.#dataVisualizer.createLineChart(dataPoints)
-        this.#activeColor = 'blue'
+          return this.#activeChart
+        case 'line':
+          this.#activeChart = this.#dataVisualizer.createLineChart(dataPoints)
+          this.#activeColor = 'blue'
 
-        return this.#activeChart
-      default:
-        break
+          return this.#activeChart
+        default:
+          break
+      }
+    } catch (error) {
+      console.error(error.message)
     }
   }
 
@@ -103,20 +107,24 @@ export default class Model {
   }
 
   saveActiveChart () {
-    if (!this.#activeId) {
-      const id = this.#dataSaver.createUniqueID()
-      this.#activeId = id
-    }
-
-    if (this.#activeChart) {
-      const chartData = {
-        type: this.#activeChart.getCanvasElement().getAttribute('class'),
-        height: this.#activeChart.getCanvasElement().height,
-        width: this.#activeChart.getCanvasElement().width,
-        color: this.#activeColor,
-        data: this.#activeChart.getDataPoints()
+    try {
+      if (!this.#activeId) {
+        const id = this.#dataSaver.createUniqueID()
+        this.#activeId = id
       }
-      this.#dataSaver.saveChart(this.#activeId, chartData)
+
+      if (this.#activeChart) {
+        const chartData = {
+          type: this.#activeChart.getCanvasElement().getAttribute('class'),
+          height: this.#activeChart.getCanvasElement().height,
+          width: this.#activeChart.getCanvasElement().width,
+          color: this.#activeColor,
+          data: this.#activeChart.getDataPoints()
+        }
+        this.#dataSaver.saveChart(this.#activeId, chartData)
+      }
+    } catch (error) {
+      console.error(error.message)
     }
   }
 
@@ -126,43 +134,67 @@ export default class Model {
   }
 
   updateChartHeight (height) {
-    this.#activeChart.setHeightTo(height)
+    try {
+      this.#activeChart.setHeightTo(height)
 
-    return this.#activeChart
+      return this.#activeChart
+    } catch (error) {
+      console.error(error.message)
+    }
   }
 
   updateChartWidth (width) {
-    this.#activeChart.setWidthTo(width)
+    try {
+      this.#activeChart.setWidthTo(width)
 
-    return this.#activeChart
+      return this.#activeChart
+    } catch (error) {
+      console.error(error.message)
+    }
   }
 
   updateChartColor (color) {
-    this.#activeChart.setColorTheme(color)
-    this.#activeColor = color
+    try {
+      this.#activeChart.setColorTheme(color)
+      this.#activeColor = color
 
-    return this.#activeChart
+      return this.#activeChart
+    } catch (error) {
+      console.error(error.message)
+    }
   }
 
   updateChartDataValue (nameKey, oldValue, newValue) {
-    this.#activeChart.updateDataPoint(nameKey, oldValue, newValue)
+    try {
+      this.#activeChart.updateDataPoint(nameKey, oldValue, newValue)
 
-    return this.#activeChart
+      return this.#activeChart
+    } catch (error) {
+      console.error(error.message)
+    }
   }
 
   insertNewDataPoint (key, value) {
-    const existingData = Object.keys(this.#activeChart.getDataPoints()).length
+    try {
+      const existingData = Object.keys(this.#activeChart.getDataPoints()).length
 
-    if ((existingData + 1) <= this.#maxDataPoints) {
-      this.#activeChart.insertDataPoint(key, value)
+      if ((existingData + 1) <= this.#maxDataPoints) {
+        this.#activeChart.insertDataPoint(key, value)
+      }
+      return this.#activeChart
+    } catch (error) {
+      console.error(error.message)
     }
-    return this.#activeChart
   }
 
   deleteDataPoint (key, value) {
-    this.#activeChart.deleteDataPoint(key, value)
+    try {
+      this.#activeChart.deleteDataPoint(key, value)
 
-    return this.#activeChart
+      return this.#activeChart
+    } catch (error) {
+      console.error(error.message)
+    }
   }
 
   deleteChart (id) {
@@ -170,10 +202,18 @@ export default class Model {
   }
 
   getDataFromActiveChart () {
-    return this.#activeChart.getDataPoints()
+    try {
+      return this.#activeChart.getDataPoints()
+    } catch (error) {
+      console.error(error.message)
+    }
   }
 
   getActiveChartCanvas () {
-    return this.#activeChart.getCanvasElement()
+    try {
+      return this.#activeChart.getCanvasElement()
+    } catch (error) {
+      console.error(error.message)
+    }
   }
 }

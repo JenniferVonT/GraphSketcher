@@ -57,8 +57,21 @@ A hard thing for me is deciding where to place methods based on conceptual affin
 ![vertical ordering](../src/img/L3_vertical_ordering.PNG)
 
 ## Chapter 6
-**L2** -
-**L3** -
+**L2** - I have kept the modules very separate in this project, they all only talk to "friends" not "strangers" and hence follows the law of Demeter which means they only calls methods from within themselves or objects that the methods have created, gotten as an argument or the class holds as an instance within itself. I've tried to hide as much data structures as possible and instead leaned on methods for all the data handling, for instance in this example I only use getters and setters for data handling, and only call methods on an object the class hold as an instance (errorHandler):
+
+![Structure example](../src/img/L2_hiding_structure.PNG)
+(./src/data.js)
+
+**L3** - This project was a bit harder to keep separate since I'm handling editing with a preview that updates in real time, also saving, downloading and deleting feature so I had to sent objects as arguments and return values on a much higher scale than I needed in L2. I still tried to hide the internal structure within the class, only using methods to manipulate and reach data and keeping most methods not needed by "outsiders" private. I did have some "trainwrecks" though, where I called a method on a return object that the class didn't really have access to according to Demeters law, I changed it to follow the law and only access the data through instantiated classes within the class.
+
+Before:
+
+![trainwreck before](../src/img/L3_trainwreck.PNG)
+
+After: (this.#model and this.#view are both instantiated in the class as global variables)
+
+![trainwreck after](../src/img/L3_trainwreck_after.PNG)
+(./src/controller/controller.js)
 
 ## Chapter 7
 **L2** -
