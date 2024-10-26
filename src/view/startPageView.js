@@ -26,13 +26,13 @@ export default class StartPage {
     this.#clearEditorPreview()
   }
 
-  #hideEditor() {
-    this.#editor.classList.add('hidden')
-  }
-
   #configureStartingSelectButtons () {
     const iconElementsAndTypes = this.#bindStartSelectIcons()
     this.#setEventListenersForStartIcons(iconElementsAndTypes)
+  }
+  
+  #hideEditor() {
+    this.#editor.classList.add('hidden')
   }
 
   #bindStartSelectIcons () {

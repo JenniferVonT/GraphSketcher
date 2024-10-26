@@ -6,11 +6,13 @@ These are reflections based around the book Clean Code by Robert C. Martin and t
 **L2** - I think I followed this chapter well in L2 and tried to keep the names as meaningful and descriptive as possible and to avoid leaving false clues when it came to the naming of both classes and variables, they are all pronounceable. All my class names are nouns and say what they mean while my method names are verbs. The only class name I believe is the most "deceptive" is the DataVisualizer, it doesn't technically "visualize" the data, it creates the chart class that in turn visualize it. But I wanted that name for my module as a whole and thus decided to keep the "main" entry point class as the same name as the module at large.
 
 ![class name example](../src/img/L2_ClassNames.PNG)
+
 (root directory)
 
 **L3** - This assignment was where I ran in to some trouble trying to follow the second chapter. I decided to follow the MVC (Model View Controller) pattern for this project which made me have a really hard time with the naming of specifically method names and trying not to leave "false clues" by choosing very similar names that can sometimes be hard to differentiate between eachother. Since a lot of my methods do similar stuff but for different inputs and areas of the application I ran into these examples in my controller class for instance:
 
 ![method name example](../src/img/L3_methodNamesEx.PNG)
+
 (./src/controller/controller.js)
 
 I have a really hard time with naming when I'm faced with methods that does similar things but not similar enough to be refactored into one method (since that would also break against the rule that functions should be small)
@@ -20,14 +22,17 @@ I have a really hard time with naming when I'm faced with methods that does simi
 **L2** - I think its hard to make the decision when a function truly only does "one thing", I tried as best as possible to follow this in L2 and refactor as much as possible when possible. It was easier in this project than L3 because the module had "one" goal and that was to create a chart that could be customized. It made it easier to make everything modular and keep the methods short. The one place where I think I failed with this was in the child classes to the Chart class, I tried refactor their methods but always ran into issues with the inheritance making it loose the progress in the process or running into issues with the reach between the parent/child classes and their methods so I decided to keep them long. But every other class in the project have short and concise methods where I interpret the majority to only do "one thing".
 
 ![long method example](../src/img/L2_longMethod.PNG)
+
 (./src/chartModules/pieChart.js)
 
 **L3** - I tried to keep the methods small and arguments short, I managed to keep most methods dyadic or less (whereas the vast majority is nullary, with no arguments) to keep it simple, even in scenarios where I needed a lot of information I made the argument into one object with the data instead of several argument inputs. I have some exceptions to this though where I had to make a triadic method, they are very few and these are only the methods that handle changes to existing data where the original data is needed as a reference
 
 ![triadic examepl 1](../src/img/L3_triadicMethod1.PNG)
+
 (./src/controller/controller.js)
 
 ![triadic examepl 2](../src/img/L3_triadicMethod2.PNG)
+
 (./src/model/model.js)
 
 ## Chapter 4
@@ -35,14 +40,17 @@ I have a really hard time with naming when I'm faced with methods that does simi
 **L2** - I decided to keep the comments minimal, leaning more on naming and the code structure to communicate what it does instead, with that said I still decided to implement jsdoc to all of my public methods ateast stating what the argument types should be. I wanted it to also be a help when using the module in an IDE that helps the user by showing the jsdoc when writing the code, making it more user friendly.
 
 ![comment example](../src/img/L2_comment_example.PNG)
+
 (./src/dataVisualizer.js)
 
 **L3** - Since this project isn't geared towards other developers like the L2 module is I decided to omit comments on even the public methods since they aren't really "public" in the same sense as the L2. I believe the method names are descriptive enough, even if some arguments names could be helped by a comment to just clarify the data type. I have written module comments and very few explanatory comments where I think is neccessary. The first examples just clarifies that the catch block isn't left empty for nothing or forgotten, it is there because the element "chart-selector" is not always present in the DOM and gets an error when it can't find it otherwise. The second example is to clarify that the commented line has to come before the rest because the component handles both the blur/unfocus and keywdown event the same and it fires the event twice otherwise since it blurs it after the keywdown event.
 
 ![comment example](../src/img/L3_comment_ex1.PNG)
-(./src/view/view.js)
+
+(./src/view/startPageView.js)
 
 ![comment example](../src/img/L3_comment_ex2.PNG)
+
 (./src/view/chart-selector.js)
 
 ## Chapter 5
@@ -53,9 +61,10 @@ I have a really hard time with naming when I'm faced with methods that does simi
 (./src/data.js)
 
 **L3** - What I said for L2 can be applied for L3 aswell, but in this project I have implemented an automatic formatting tool (the npm `standard` package) to help with formatting, this has made it easier to really make sure that the entire code base follows the exact same formatting style everywhere.
-A hard thing for me is deciding where to place methods based on conceptual affinity and a logical vertical ordering, if there is just a few methods this isn't an issue, but when several methods starts to use one method I have a hard time figuring out where to put the one method being used by many. For example in this snippet I have an abstract method at the start to show the start page, all the methods fall below in the order they are called, except the `clearEditorPreview` method, that one is also abstract and have several method calls and is used by many methods, I also have the methods called in the `#configureStartingSelectButtons` below these shown. This creates the "scrolling" in the document we want to avoid, but I don't know any better way to sort them besides this.
+A hard thing for me is deciding where to place methods based on conceptual affinity and a logical vertical ordering, if there is just a few methods this isn't an issue, but when several methods starts to use one method I have a hard time figuring out where to put the one method being used by many. For example in this example image I have an abstract method at the start to show the start page, all the methods fall below in the order they are called, except the `clearEditorPreview` method, that one is also abstract and have several method calls and is used by many methods, I also have the methods called in the `#configureStartingSelectButtons` below these shown. This creates the "scrolling" in the document we want to avoid, but I don't know any better way to sort them besides this.
 
 ![vertical ordering](../src/img/L3_vertical_ordering.PNG)
+
 (./src/view/view.js)
 
 ## Chapter 6
@@ -74,6 +83,7 @@ Before:
 After: (this.#model and this.#view are both instantiated in the class as global variables)
 
 ![trainwreck after](../src/img/L3_trainwreck_after.PNG)
+
 (./src/controller/controller.js)
 
 ## Chapter 7
@@ -109,6 +119,7 @@ Then I catch it when calling the method in case there is any issues I don't know
 **L2** - In this project I did a lot of automatic testing, my only fault was that I did not always follow the Three laws of TDD, sometimes I actually wrote the production code before the test code. I had a hard time knowing exactly what to test before I had even tried to write the production code. I did however stick to one test at a time, running it and debugging until it passed without moving on to writing the next test. I also tried to keep the tests to single concerns. This test however tests both height and width, mostly because they both take the same kind of input and is tested in the same way so I didn't want to write an almost doublicate test just for height and width.
 
 ![test](../src/img/L2_test.PNG)
+
 (./test/chart.test.js)
 
 **L3** - In this project I couldn't really follow the book since I don't have any automatic testing. It was better fit with manual testing and I tested manually all the time during development, running the application on a local server with realtime updates. I do however keep all the "official" tests concise and easy to follow, keeping them all written down in my testreport. This makes testing very fast, independent, repeatable, self-validating and timely since they are very accessible during development.
@@ -116,6 +127,7 @@ Then I catch it when calling the method in case there is any issues I don't know
 The tests have descriptive names telling the user instantly what they are testing. They also describe in their separate documentation what they expects aswell.
 
 ![test](../src/img/L3_test.PNG)
+
 (./documentation/testreport.md)
 
 ## Chapter 10
