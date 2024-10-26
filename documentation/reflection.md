@@ -65,10 +65,10 @@ A hard thing for me is deciding where to place methods based on conceptual affin
 
 ![vertical ordering](../src/img/L3_vertical_ordering.PNG)
 
-(./src/view/view.js)
+(./src/view/startPageView.js)
 
 ## Chapter 6
-**L2** - I have kept the modules very separate in this project, they all only talk to "friends" not "strangers" and hence follows the law of Demeter which means they only calls methods from within themselves or objects that the methods have created, gotten as an argument or the class holds as an instance within itself. I've tried to hide as much data structures as possible and instead leaned on methods for all the data handling, for instance in this example I only use getters and setters for data handling, and only call methods on an object the class hold as an instance (errorHandler):
+**L2** - I have kept the modules very separate in this project, they only talk to "friends" not "strangers" and hence follows the law of Demeter which means they only calls methods from within themselves or objects that the methods have created, gotten as an argument or the class holds as an instance within itself. I've tried to hide as much data structures as possible and instead leaned on methods for all the data handling, for instance in this example I only use getters and setters for data handling, and only call methods on an object the class hold as an instance (errorHandler):
 
 ![Structure example](../src/img/L2_hiding_structure.PNG)
 
@@ -90,9 +90,11 @@ After: (this.#model and this.#view are both instantiated in the class as global 
 **L2** - I have a lot of error handling in the module, since it's going to act as a third party module for other devs I decided to have a try/catch block and throw errors in the majority of methods and did create an entire class for handling the error messaging because of this. I do not return null anywhere to avoid foistering the problem to the caller of the method and I think I managed it pretty well and definitely do not do that to methods that return to the dev using the module.
 
 First I throw an error object created in my error handling class...
+
 ![error handling](../src/img/L2_error_handling_ex_2.PNG)
 
 ... Then I catch the error in the method that calls the one above.
+
 ![error handling](../src/img/L2_error_handling_ex.PNG)
 
 
@@ -131,8 +133,18 @@ The tests have descriptive names telling the user instantly what they are testin
 (./documentation/testreport.md)
 
 ## Chapter 10
-**L2** -
-**L3** -
+
+**L2** - I have always had a hard time keeping my classes small (or small according to CC), Sometimes I don't know how to refactor them especially when also trying to follow the method rules, being smaller and only doing one thing. It expands the class so much in size. I do try to keep the classes as separated as possible when it comes to responsibilites atleast, but I know that I could be better with that aswell. It's very easy to just add more functionality to a class while thinking that it's a too "small" of a functionality to be refactored into it's own class. I failed with the cohesion in the super class Chart because even though I refactored the code to create new classes for Data and ColorThemes to try and make it smaller and split the responsibilites it's still very large with a lot of global variables. I had to loosen the encapsulation in the same Chart class aswell because some methods needed to be reached from the subclasses that inherits it, I made them protected though to signal that they arent meant to be used outside of it.
+
+![class example](../src/img/L2_big_class.PNG)
+
+(./src/chartModules/chart.js)
+
+**L3** - The classes still became pretty big in size just as the L2 when the methods became shorter but more was added because of it. I do think the cohesion became better (higher) in this project though, I kept the classes very encapsulated and held the single responsibility principle better here. The views only handle the visual on the browser, the controller validates data and acts as a middleman between the view and model, the model handles the "business" logic and manipulates the chart/graph and the persistence. All of these three "groups" are in turn divided into classes according to their responsibility but with only one "entry point" to keep the data stream linear.
+
+![class diagram](../src/img/1DV610_L3_ClassD.png)
+
+This class diagram shows how I have divided my classes which can be seen in the implementation aswell.
 
 ## Chapter 11
 **L2** -
