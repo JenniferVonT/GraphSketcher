@@ -63,7 +63,7 @@ export default class StartPage {
   hidePage () {
     this.#startPage.classList.add('hidden')
     this.#clearEditorPreview()
-    this.hideEditor()
+    this.#hideEditor()
   }
 
   #clearEditorPreview () {
