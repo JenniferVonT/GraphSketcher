@@ -50,8 +50,6 @@ export default class View {
 
   showStartPage () {
     this.#startPage.showPage()
-    this.#startPage.hideEditor()
-
     this.#savedPage.hidePage()
   }
 
