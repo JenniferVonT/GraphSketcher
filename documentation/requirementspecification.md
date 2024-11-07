@@ -17,4 +17,5 @@ The project should be managed using git and GitHub, commit and test often throug
 
 ### 3.2 Code standard
 The code should follow the book `Clean Code` by Robert C. Martin.
+The code format should follow the npm `standard` package.
 
