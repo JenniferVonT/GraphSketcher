@@ -147,5 +147,19 @@ The tests have descriptive names telling the user instantly what they are testin
 This class diagram shows how I have divided my classes which can be seen in the implementation aswell.
 
 ## Chapter 11
-**L2** -
-**L3** -
+
+**L2** - The application is very encapsulated and modular, each class has their clear responsibility and has a pretty low coupling toward eachother. I separated the Data and ColorTheme classes from the Chart class for this reason aswell since the Chart class had too many responsibilites at first, to make the cohesion higher within the code. I could have used more dependency injections by inserting the data and/or colorTheme as arguments to the Chart class to make it easier with testing and get a looser coupling, but I didn't find it necessary in this situation. I already have arguments for globalOptions and dataPoints so I didn't want to have four arguments, though you could argue that I could remove the arguments for options and data points and insert those via setters instead and change the arguments to the data and colorTheme class to make the coupling looser to those classes/components.
+
+![constructor example](../src/img/L2_constructor_ex.PNG)
+
+(./src/chartModules/chart.js)
+
+**L3** - The application has a clear MVC structure and separates the responsibilities for each class/component. The controller acting as a mediator for the View and Model makes them completely separated from eachother and thus making it easier to change/update them in the future. The code also promotes loose coupling with dependency injections by passing the model to the controller and the controller to the view as an argument instead of instantiating them internally. This also makes it possible for the view to send data to the controller without the controller having to call the view. However, the controller could be broken up into several controllers to separate it's concerns, since now it handles everything from the view both in the editor, start page and saved page. The model could also have had more loose coupling towards the datavisualizer and datasaver by using dependency injections and given those components as arguments instead of instantiating them itself, this would have made it more flexible and easier to test in isolated situtations in the future.
+
+![SoC example](../src/img/L3_SoC_example.PNG)
+
+(./src/controller/controller.js)
+
+![DI example](../src/img/L3_DI_example.PNG)
+
+(./src/index.js)
